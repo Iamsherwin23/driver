@@ -25,22 +25,23 @@ export default function LoginPage({ navigation }) {
     const [isLoading, setIsLoading] = useState(false);
 
     const { setIsAuthenticated } = useContext(AuthContext);
+    const access_level = 10;
 
     // call api login
     const loginUser = async () => {
 
-        if (username == '' || password == '') {
-            setMsg(true);
-            setTimeout(() => {
-                setMsg(false);
-            }, 2000);
-            setMessageColor(Constants.COLORS.YELLOW);
-            setData("Please don't leave any blanks");
-        } else {
+        // if (username == '' || password == '') {
+        //     setMsg(true);
+        //     setTimeout(() => {
+        //         setMsg(false);
+        //     }, 2000);
+        //     setMessageColor(Constants.COLORS.YELLOW);
+        //     setData("Please don't leave any blanks");
+        // } else {
             setIsLoading(true);
-            const apiResult = await loginTest(username, password);
+            const apiResult = await loginTest('jenna@gmail.com', 'Sarco123!', access_level);
             setIsLoading(false);
-            if (apiResult.status == 400) {
+            if (apiResult.status == 400) { 
                 setMsg(true);
                 setTimeout(() => {
                     setMsg(false);
@@ -53,10 +54,13 @@ export default function LoginPage({ navigation }) {
                 setMsg(true);
                 setData(apiResult.message);
                 await AsyncStorage.setItem('token', apiResult.access_token);
+                await AsyncStorage.setItem('user', apiResult.user);
+                await AsyncStorage.setItem('fullname', apiResult.fullname);
+                await AsyncStorage.setItem('contact', apiResult.contact);
                 setIsAuthenticated(true); // this triggers page change
             }
 
-        }
+        // }
 
 
     }

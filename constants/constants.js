@@ -44,7 +44,8 @@ const Constants = {
     },
 
     API_ROUTE: {
-        API_ENDPOINT: "http://10.0.2.2:8000"
+        API_ENDPOINT: "http://10.0.2.2:8000",
+        // API_ENDPOINT: "https://trikefare.com/server/public"
     }
 
 }

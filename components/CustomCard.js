@@ -77,7 +77,7 @@ const style = StyleSheet.create({
         backgroundColor: Constants.COLORS.WHITE,
         borderRadius: Constants.BORDERS.RADIUS_SMALL,
         padding: Constants.PADDING.SMALL,
-        elevation: 5,
+        // elevation: 5,
         marginBottom: Constants.MARGIN.SMALL
     },
     messageLabel: {

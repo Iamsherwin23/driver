@@ -17,23 +17,23 @@ const Tab = createBottomTabNavigator();
 export default function MainLayout({ setIsAuthenticated }) {
     return (
         <Tab.Navigator
-            initialRouteName='Home'
+            initialRouteName='Pickup'
             screenOptions={({ route, navigation }) => ({
                 tabBarIcon: ({ color, focused, size }) => {
                     let iconName;
-                    if (route.name === 'Home') {
-                        iconName = focused ? 'home' : 'home-outline';
+                    if (route.name === 'Pickup') {
+                        iconName = focused ? 'location' : 'location-outline';
                     }
                     else if (route.name === 'Profile') {
                         iconName = focused ? 'person' : 'person-outline';
                     }
-                    else if (route.name === 'About') {
+                    else if (route.name === 'CCTV') {
                         iconName = focused ? 'book' : 'book-outline';
                     }
                     else if (route.name === 'History') {
                         iconName = focused ? 'time' : 'time-outline';
                     }
-                    else if (route.name === 'Rate Us') {
+                    else if (route.name === 'Report') {
                         iconName = focused ? 'star' : 'star-outline';
                     }
                     else if (route.name === 'News Fare') {
@@ -56,12 +56,12 @@ export default function MainLayout({ setIsAuthenticated }) {
                 animation: 'shift'
             })}
         >
-            <Tab.Screen name='Home' component={Home} />
-            <Tab.Screen name='Profile' component={Profile} />
-            <Tab.Screen name='About' component={About} />
-            <Tab.Screen name='History' component={History} />
-            <Tab.Screen name='Rate Us' component={Rating} />
+            <Tab.Screen name='Pickup' component={Home} />
             <Tab.Screen name='News Fare' component={NewsFeed} />
+            <Tab.Screen name='History' component={History} />
+            <Tab.Screen name='CCTV' component={About} />
+            <Tab.Screen name='Report' component={Rating} />
+            <Tab.Screen name='Profile' component={Profile} />
         </Tab.Navigator>
     )
 }
