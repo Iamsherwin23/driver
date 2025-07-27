@@ -38,9 +38,9 @@ export default function Profile() {
                 <View style={style.profileDetails}>
 
                 </View>
-                {/* <TouchableOpacity onPress={() => { logOut() }}>
+                <TouchableOpacity onPress={() => { logOut() }}>
                     <CustomText style={{ fontFamily: 'Montserrat' }}>Log out</CustomText>
-                </TouchableOpacity> */}
+                </TouchableOpacity>
             </View>
         </View>
     )

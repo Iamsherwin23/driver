@@ -9,13 +9,13 @@ const AuthContext = createContext({
 const AuthProvider = ({ children }) => {
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    useEffect(() => {
-        const checkToken = async () => {
-            const token = await AsyncStorage.getItem('token');
-            if (token) setIsAuthenticated(true);
-        };
-        checkToken();
-    }, []);
+    // useEffect(() => {
+    //     const checkToken = async () => {
+    //         const token = await AsyncStorage.getItem('token');
+    //         if (token) setIsAuthenticated(true);
+    //     };
+    //     checkToken();
+    // }, []);
 
     return (
         <AuthContext.Provider value={{isAuthenticated, setIsAuthenticated}}>

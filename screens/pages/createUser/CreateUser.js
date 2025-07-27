@@ -125,7 +125,7 @@ export default function CreateUserPage({ navigation }) {
 
                 {/* Footer */}
                 <View style={createUserStyle.footer}>
-                    <CustomButton color={Constants.COLORS.RED} fontSize={Constants.SIZE.MEDIUM} onPress={()=>{}}/>
+                    <CustomButton color={Constants.COLORS.RED} fontSize={Constants.SIZE.X_MEDIUM} onPress={()=>{}} text={'Submit'}/>
                 </View>
             </View>
         </KeyboardAvoidingView>

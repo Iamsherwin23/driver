@@ -18,7 +18,7 @@ function Navigation() { // this is equal to browser router
             <StackNav.Navigator>
 
                 {
-                    !isAuthenticated ?
+                    isAuthenticated ?
                         (<StackNav.Screen name='MainPage' options={{ headerShown: false }}>
                             {(props) => <MainLayout {...props} />}
                         </StackNav.Screen>)
@@ -27,9 +27,14 @@ function Navigation() { // this is equal to browser router
                             {(props) => <LoginPage {...props} />}
                         </StackNav.Screen>)
                 }
-                {/* <StackNav.Screen name='CreateUserPage' options={{ headerShown: false }}>
-                    {(props) => <CreateUserPage {...props} />}
-                </StackNav.Screen> */}
+                {
+                    isAuthenticated ?
+                        null
+                        :
+                        (<StackNav.Screen name='CreateUserPage' options={{ headerShown: false }}>
+                            {(props) => <CreateUserPage {...props} />}
+                        </StackNav.Screen>)
+                }
 
             </StackNav.Navigator>
         </NavigationContainer>
