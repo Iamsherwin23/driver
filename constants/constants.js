@@ -8,6 +8,7 @@ const Constants = {
         RED_TINT: 'rgba(211, 51, 51, 0.15)',
         DARK_RED: '#802626',
         WHITE: '#FFFFFF',
+        GRAY: '#777777',
         FADED_BLACK: '#343341',
         BLUE: '#277fcf',
         GREEN: '#45de5c',
@@ -44,7 +45,9 @@ const Constants = {
     },
 
     API_ROUTE: {
+        // Local
         API_ENDPOINT: "http://10.0.2.2:8000",
+        // Production
         // API_ENDPOINT: "https://trikefare.com/server/public"
     }
 

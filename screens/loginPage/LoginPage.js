@@ -12,6 +12,7 @@ import { AuthContext } from '../../context/AuthContext.js';
 import { loginTest } from '../../services/service.js';
 import { CustomMessage } from '../../components/Message.js';
 import CustomLoadingBar from '../../components/CustomLoadingBar.js'; 
+import CustomLoading from '../../components/CustomLoading.js';
 
 export default function LoginPage({ navigation }) {
 
@@ -50,9 +51,9 @@ export default function LoginPage({ navigation }) {
                 setData(apiResult.message);
 
             } else if (apiResult.status == 200) {
-                setMessageColor(Constants.COLORS.GREEN);
-                setMsg(true);
-                setData(apiResult.message);
+                // setMessageColor(Constants.COLORS.GREEN);
+                // setMsg(true);
+                // setData(apiResult.message);
                 await AsyncStorage.setItem('token', apiResult.access_token);
                 await AsyncStorage.setItem('user', apiResult.user);
                 await AsyncStorage.setItem('fullname', apiResult.fullname);
@@ -73,14 +74,13 @@ export default function LoginPage({ navigation }) {
         >
             <View style={loginStyle.container}>
                 {
-                    isLoading ? <CustomLoadingBar/> : null
+                    isLoading ? <CustomLoading/> : null
                 }
                 {/* Header */}
                 <View style={loginStyle.header}>
                     <CustomText style={loginStyle.label}>Hi! Welcome To</CustomText>
                     <CustomText style={loginStyle.label2}>TrikeFare</CustomText>
 
-                    {/* {loadingBar ? <Text>please wait...</Text> : null} */}
                 </View>
                 <View style={loginStyle.main}>
 

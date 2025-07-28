@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { apiRoutes } from "../routes/apiRoutes";
 
 export const loginTest = async (username, password, access_level) => { //test login
@@ -27,6 +28,35 @@ export const fetchUserProfile = async () => {
         });
 
         return await res.json();
+    } catch (err) {
+        console.error('Error fetching profile:', err);
+    }
+};
+
+export const updateUserProfile = async (firstName, lastName, email, address, contactNumber, license, selectedGender) => {
+    try {
+        const token = await AsyncStorage.getItem('token');
+
+        const res = await fetch(apiRoutes.updateProfile, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    first_name: firstName,
+                    last_name: lastName,
+                    contact: contactNumber,
+                    email,
+                    address,
+                    contact_number: contactNumber,
+                    id_number: license,
+                    gender: selectedGender,
+                }),
+            });
+
+            return await res.json();
+
     } catch (err) {
         console.error('Error fetching profile:', err);
     }
