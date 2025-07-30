@@ -1,86 +1,75 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
 import { Constants } from '../../../constants/constants';
 import { globalStyle } from '../../../utils/styles';
 import CustomText from '../../../components/CustomText';
 import { CustomCard } from '../../../components/CustomCard';
 import { CustomModal } from '../../../components/CustomModal';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
+import { fetchHistory } from '../../../services/service';
+import CustomLoading from '../../../components/CustomLoading';
 
 export default function History() {
     const [isModal, setIsModal] = useState(false);
     const [viewData, setViewData] = useState({});
 
+    const [data, setData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
+
+    useEffect(() => {
+        const initHistory = async () => {
+            setLoading(true);
+            const response = await fetchHistory();
+            if (response.historyData) {
+                setData(response.historyData);
+            }
+            setLoading(false);
+        };
+
+        initHistory();
+    }, []);
+
     const openModal = (trigger, data) => {
         setIsModal(trigger);
         if (data) {
-            viewData.name = data.name
-            viewData.plateNumber = data.plateNumber
-            viewData.date = data.date
-            viewData.time = data.time
-            viewData.pickUpLoc = data.pickUpLoc
-            viewData.dropOffLoc = data.dropOffLoc
+            viewData.rate = data.rate ?? 0
+            viewData.name = data.passenger_name
+            viewData.date = data.date_booked
+            viewData.time = data.time_booked
+            viewData.pickUpLoc = data.location_from
+            viewData.dropOffLoc = data.location_to
             viewData.distance = data.distance
             viewData.fare = data.fare
-            viewData.ride = data.ride
+            viewData.ride = data.category
+            viewData.bookid = data.bookid
         }
     }
 
-    const data = [
-        {
-            name: "Kianu",
-            plateNumber: "XXX-123-ZQB",
-            date: "25-07-2-25",
-            time: "10:23 pm",
-            pickUpLoc: "San Isidro",
-            dropOffLoc: "California, USA",
-            distance: "1650.67 km",
-            fare: "Php 150,675.00",
-            ride: "Special"
-        },
-        {
-            name: "Invoker Kael",
-            plateNumber: "QQWER-750",
-            date: "25-07-2-25",
-            time: "10:23 pm",
-            pickUpLoc: "San Isidro",
-            dropOffLoc: "California, USA",
-            distance: "1650.67 km",
-            fare: "Php 150,675.00",
-            ride: "Special"
-        },
-        {
-            name: "Lalatina",
-            plateNumber: "DRKNSS-404",
-            date: "25-07-2-25",
-            time: "10:23 pm",
-            pickUpLoc: "San Isidro",
-            dropOffLoc: "Tokyo, Japan",
-            distance: "2500.67 km",
-            fare: "Php 350,675.00",
-            ride: "Special"
-        },
-        {
-            name: "Lalatina",
-            plateNumber: "DRKNSS-404",
-            date: "25-07-2-25",
-            time: "10:23 pm",
-            pickUpLoc: "San Isidro",
-            dropOffLoc: "Tokyo, Japan",
-            distance: "2500.67 km",
-            fare: "Php 350,675.00",
-            ride: "Special"
+    const onRefresh = async () => {
+        setRefreshing(true);
+        const response = await fetchHistory();
+        if (response.historyData) {
+            setData(response.historyData);
         }
-    ]
+        setRefreshing(false);
+    };
+
     return (
         <View style={[{ backgroundColor: Constants.COLORS.GRAYISH_WHITE, position: 'relative' }, globalStyle.container]}>
+            {loading && <CustomLoading />}
+            
             {/* Header */}
             <View style={globalStyle.headerContainer}>
                 <CustomText style={globalStyle.textTitle}>History</CustomText>
             </View>
 
             {/* Main Content */}
-            <ScrollView style={style.main}>
+            <ScrollView style={style.main} 
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                }
+            >
                 {
                     data.map((data, index) => {
                         return (
@@ -99,13 +88,15 @@ export default function History() {
                             <View style={{ marginLeft: Constants.MARGIN.SMALL }}>
                                 <View style={{ flexDirection: 'row' }}>
                                     <Ionicons name={'star'} size={30} color={Constants.COLORS.YELLOW} />
-                                    <CustomText style={[style.textHeader, { fontSize: Constants.SIZE.MEDIUM }]}>5</CustomText>
+                                    <CustomText style={[style.textHeader, { fontSize: Constants.SIZE.MEDIUM }]}>{viewData.rate}</CustomText>
                                 </View>
                                 <CustomText style={style.textHeader}>
                                     {viewData.name}
                                 </CustomText>
-                                <CustomText style={style.textHeader}>
-                                    {viewData.plateNumber}
+                                <CustomText style={style.textHeader1}>
+                                    Book ID: <CustomText style={{color: Constants.COLORS.RED}}>
+                                     {viewData.bookid}
+                                </CustomText>
                                 </CustomText>
                             </View>
                         </View>
@@ -152,6 +143,10 @@ const style = StyleSheet.create({
     textHeader: {
         fontFamily: 'Montserrat-Bold',
         fontSize: Constants.SIZE.REGULAR
+    },
+    textHeader1: {
+        fontFamily: 'Montserrat-Bold',
+        fontSize: 12
     },
     modalContainer: {
         flex: 1

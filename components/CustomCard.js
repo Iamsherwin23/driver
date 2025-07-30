@@ -16,46 +16,41 @@ const CustomCard = ({ details, pressFunc }) => {
     return (
         <View style={[style.card]}>
 
-            <View style={style.icon}>
+            {/* <View style={style.icon}>
                 <Ionicons name={'person-circle'} size={64} color={Constants.COLORS.BLACK} />
-            </View>
+            </View> */}
 
             <View style={style.details}>
 
-                {/* Name */}
-                <View style={[{ flexDirection: 'row' }]}>
-                    <CustomText style={[style.messageLabel, { color: Constants.COLORS.BLACK }]}>Name: </CustomText>
-                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.name}</CustomText>
-                </View>
-
-                {/* Plate No */}
-                <View style={[style.details, { flexDirection: 'row' }]}>
-                    <CustomText style={[style.messageLabel, { color: Constants.COLORS.BLACK }]}>Plate Number: </CustomText>
-                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.plateNumber}</CustomText>
-                </View>
 
                 {/* Date */}
                 <View style={[style.details, { flexDirection: 'row' }]}>
                     <CustomText style={[style.messageLabel, { color: Constants.COLORS.RED }]}>Date: </CustomText>
-                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.date}</CustomText>
+                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.date_booked}</CustomText>
                 </View>
 
                 {/* Time */}
                 <View style={[style.details, { flexDirection: 'row' }]}>
                     <CustomText style={[style.messageLabel, { color: Constants.COLORS.RED }]}>Time: </CustomText>
-                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.time}</CustomText>
+                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.time_booked}</CustomText>
+                </View>
+
+                {/* Name */}
+                <View style={[{ flexDirection: 'row' }]}>
+                    <CustomText style={[style.messageLabel, { color: Constants.COLORS.BLACK }]}>Name: </CustomText>
+                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.passenger_name}</CustomText>
                 </View>
 
                 {/* Pick Up Loc */}
                 <View style={[style.details, { flexDirection: 'row' }]}>
                     <CustomText style={[style.messageLabel, { color: Constants.COLORS.BLUE }]}>Pickup Location: </CustomText>
-                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.pickUpLoc}</CustomText>
+                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.location_from}</CustomText>
                 </View>
 
                 {/* Drop off Loc */}
                 <View style={[style.details, { flexDirection: 'row' }]}>
                     <CustomText style={[style.messageLabel, { color: Constants.COLORS.RED }]}>Drop-off Location: </CustomText>
-                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.dropOffLoc}</CustomText>
+                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.location_to}</CustomText>
                 </View>
 
             </View>
@@ -69,9 +64,6 @@ const CustomCard = ({ details, pressFunc }) => {
 }
 
 const style = StyleSheet.create({
-    icon: {
-        marginRight: Constants.MARGIN.SMALL
-    },
     card: {
         flexDirection: 'row',
         backgroundColor: Constants.COLORS.WHITE,

@@ -39,7 +39,7 @@ const style = StyleSheet.create({
         padding: Constants.PADDING.SMALL,
         paddingLeft: Constants.PADDING.MEDIUM,
         paddingRight: Constants.PADDING.MEDIUM,
-        borderRadius: Constants.BORDERS.RADIUS_SMALL,
+        borderRadius: 100,
         textAlign: 'center'
     }
 })

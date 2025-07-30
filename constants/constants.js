@@ -29,7 +29,8 @@ const Constants = {
         REGULAR: 24,
         MEDIUM: 40,
         LARGE: 80,
-        SMALL: 12
+        SMALL: 12,
+        XSMALL: 5,
     },
     MARGIN:{
         REGULAR: 24,

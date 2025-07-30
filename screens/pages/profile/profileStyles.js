@@ -105,6 +105,12 @@ const profileStyles = StyleSheet.create({
         textAlign: 'center',
         fontFamily: 'Montserrat',
         fontWeight: 800
+    },
+    imageProfile: {
+        width: 100,
+        height: 100,
+        borderRadius: 100,
+        padding: 5
     }
 
     // Form

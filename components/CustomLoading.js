@@ -27,13 +27,13 @@ export default function CustomLoading() {
         <View style={styles.border} />
       </Animated.View>
       <Image
-        source={require('../assets/logo_load.png')} // 👈 Replace with your logo path
+        source={require('../assets/logo_load.png')}
         style={styles.logo}
         resizeMode="contain"
       />
     </View>
   );
-  
+
 }
 const styles = StyleSheet.create({
   container: {
@@ -44,23 +44,23 @@ const styles = StyleSheet.create({
     zIndex: 9999,
   },
   circle: {
-  position: 'absolute',
-  height: 75,
-  width: 75,
-  borderRadius: 37.5,
-  alignItems: 'center',
-  justifyContent: 'center',
-},
-border: {
-  height: 75,
-  width: 75,
-  borderRadius: 37.5,
-  borderWidth: 5,
-  borderBottomColor: '#f2d635',        // base spinner color
-  borderTopColor: '#277fcf', // hides top part for spin effect
-  borderLeftColor: '#45de5c', // hides top part for spin effect
-  borderRightColor: '#D33333', // hides top part for spin effect
-},
+    position: 'absolute',
+    height: 75,
+    width: 75,
+    borderRadius: 37.5,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  border: {
+    height: 75,
+    width: 75,
+    borderRadius: 37.5,
+    borderWidth: 5,
+    borderBottomColor: '#f2d635',        // base spinner color
+    borderTopColor: '#277fcf', // hides top part for spin effect
+    borderLeftColor: '#45de5c', // hides top part for spin effect
+    borderRightColor: '#D33333', // hides top part for spin effect
+  },
 
   logo: {
     height: 60,

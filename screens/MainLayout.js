@@ -6,10 +6,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { Constants } from '../constants/constants';
 import Home from './pages/home/Home';
 import Profile from './pages/profile/Profile';
-import About from './pages/about/About';
+import CCTV from './pages/cctv/CCTV';
 import History from './pages/history/History';
 import NewsFeed from './pages/newsFeed/NewsFeed';
-import Rating from './pages/rate/Rate';
+import Rating from './pages/report/Report';
 
 
 const Tab = createBottomTabNavigator();
@@ -28,13 +28,13 @@ export default function MainLayout({ setIsAuthenticated }) {
                         iconName = focused ? 'person' : 'person-outline';
                     }
                     else if (route.name === 'CCTV') {
-                        iconName = focused ? 'book' : 'book-outline';
+                        iconName = focused ? 'camera' : 'camera-outline';
                     }
                     else if (route.name === 'History') {
                         iconName = focused ? 'time' : 'time-outline';
                     }
                     else if (route.name === 'Report') {
-                        iconName = focused ? 'star' : 'star-outline';
+                        iconName = focused ? 'information-circle' : 'information-circle-outline';
                     }
                     else if (route.name === 'News Fare') {
                         iconName = focused ? 'newspaper' : 'newspaper-outline';
@@ -59,7 +59,7 @@ export default function MainLayout({ setIsAuthenticated }) {
             <Tab.Screen name='Pickup' component={Home} />
             <Tab.Screen name='News Fare' component={NewsFeed} />
             <Tab.Screen name='History' component={History} />
-            <Tab.Screen name='CCTV' component={About} />
+            <Tab.Screen name='CCTV' component={CCTV} />
             <Tab.Screen name='Report' component={Rating} />
             <Tab.Screen name='Profile' component={Profile} />
         </Tab.Navigator>

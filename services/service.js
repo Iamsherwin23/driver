@@ -16,6 +16,76 @@ export const loginTest = async (username, password, access_level) => { //test lo
     }
 }
 
+//News Fare Page
+export const fetchNewsFare = async (sortOrder, dateFilter) => {
+    try {
+        const res = await fetch(apiRoutes.getNewsFare, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+                sort: sortOrder,     // e.g., 'Latest' or 'Oldest'
+                date: dateFilter,    // e.g., 'Last 24h' or 'This Year'
+            }),
+        });
+
+        return await res.json();
+    } catch (err) {
+        console.error('Error fetching news fare:', err);
+    }
+};
+
+//News Fare Page
+export const fetchHistory = async () => {
+    try {
+        const res = await fetch(apiRoutes.getHistory, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+        return await res.json();
+    } catch (err) {
+        console.error('Error fetching history:', err);
+    }
+};
+
+//News Fare Page
+export const fetchReportBookings = async () => {
+    try {
+        const res = await fetch(apiRoutes.getBookings, {
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+        return await res.json();
+    } catch (err) {
+        console.error('Error fetching history:', err);
+    }
+};
+
+export const submitBookingReport = async (selectedBookingId, concern) => {
+    try {
+        const res = await fetch(apiRoutes.sumbitReport, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+            bookid: selectedBookingId,
+            concern,
+        }),
+    });
+        return await res.json();
+    } catch (err) {
+        console.error('Error fetching history:', err);
+    }
+};
+
 
 //Profile Page
 export const fetchUserProfile = async () => {
@@ -25,7 +95,7 @@ export const fetchUserProfile = async () => {
         headers: {
             'Content-Type': 'application/json',
         },
-        });
+    });
 
         return await res.json();
     } catch (err) {

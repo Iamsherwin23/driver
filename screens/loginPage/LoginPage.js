@@ -45,7 +45,7 @@ export default function LoginPage({ navigation }) {
             if (apiResult.status == 400) { 
                 setMsg(true);
                 setTimeout(() => {
-                    setMsg(false);
+                    setMsg(false); 
                 }, 2000);
                 setMessageColor(Constants.COLORS.RED);
                 setData(apiResult.message);

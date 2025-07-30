@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, ScrollView, Image } from 'react-native';
 import { Constants } from '../../../constants/constants';
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AuthContext } from '../../../context/AuthContext';
@@ -25,11 +25,10 @@ export default function Profile() {
     const [license, setLicense] = useState('');
     const [loading, setLoading] = useState(true);
     const [edit, setEdit] = useState(false);
-    const [trigger, setTrigger] = useState(true);
-    const [required, setRequired] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
     const [responseMsg, setResponseMsg] = useState('');
     const [responseStatus, setResponseStatus] = useState('');
+    const [imageSource, setImageSource] = useState('');
 
     useEffect(() => {
         const initProfile = async () => {
@@ -49,6 +48,7 @@ export default function Profile() {
                 setContactNumber(response.profile.contact || '');
                 setLicense(response.profile.id_number || '');
                 setSelectedGender(response.profile.gender || null);
+                setImageSource(response.profile.id_picture);
             }
             setLoading(false);
         };
@@ -72,6 +72,7 @@ export default function Profile() {
                 setContactNumber(response.profile.contact || '');
                 setLicense(response.profile.id_number || '');
                 setSelectedGender(response.profile.gender || null);
+                setImageSource(response.profile.id_picture);
             }
             setLoading(false);
         };
@@ -125,7 +126,17 @@ export default function Profile() {
             </View>
             <View style={{ flex: 1 }}>
                 <View style={profileStyles.profileHeader}>
-                    <Ionicons name={'person-circle'} size={120} color={Constants.COLORS.BLACK} />
+                    {/* <View style={{padding: 10}}>
+
+                        {imageSource &&
+                        <Image
+                        resizeMode="cover"
+                            source={{ uri: imageSource }}
+                            style={profileStyles.imageProfile}
+                            />
+                        }
+                    </View> */}
+                    <Ionicons name={'person-circle-outline'} size={120} color={Constants.COLORS.BLACK} />
                     <View style={{ justifyContent: 'center', flex: 1 }}>
                         <CustomText style={[profileStyles.textProfileBold]}>{fullname}</CustomText>
                         <CustomText style={[profileStyles.textProfile]}>{user}</CustomText>
@@ -149,6 +160,7 @@ export default function Profile() {
                             <View style={profileStyles.nameContainer}>
                                 <View style={profileStyles.inputContainer}>
                                     <CustomText style={profileStyles.formLabel}>First Name</CustomText>
+                                    {/* <CustomText style={profileStyles.formLabel}>{imageSource}</CustomText> */}
                                     <TextInput  editable={edit}  style={[profileStyles.formInput, !firstName && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={firstName} onChangeText={setFirstName} />
                                 </View>
                                 <View style={profileStyles.inputContainer}>
@@ -201,7 +213,7 @@ export default function Profile() {
                         <CustomText style={[profileStyles.customButton, {color: Constants.COLORS.RED }]}>Log out</CustomText>
                     </TouchableOpacity>
                     {edit &&
-                        <TouchableOpacity onPress={handleSave} style={{backgroundColor: Constants.COLORS.RED }}>
+                        <TouchableOpacity activeOpacity={0.5} onPress={handleSave} style={{backgroundColor: Constants.COLORS.RED }}>
                             <CustomText style={[profileStyles.customButton,{ color: Constants.COLORS.WHITE }]}>SAVE</CustomText>
                         </TouchableOpacity>
                     }

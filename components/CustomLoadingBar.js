@@ -22,10 +22,10 @@ export default function CustomLoadingBar(props) {
 }
 
 const style = StyleSheet.create({
-    text:{
+    text: {
         fontFamily: 'Montserrat-Bold',
     },
-    content:{
+    content: {
         backgroundColor: Constants.COLORS.WHITE,
         padding: Constants.PADDING.MEDIUM,
         borderRadius: Constants.BORDERS.RADIUS_SMALL,
