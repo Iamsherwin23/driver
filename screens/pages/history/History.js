@@ -9,9 +9,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { fetchHistory } from '../../../services/service';
 import CustomLoading from '../../../components/CustomLoading';
 
+import AnnouncementModal from '../announcement/Annnouncement';
+
 export default function History() {
     const [isModal, setIsModal] = useState(false);
     const [viewData, setViewData] = useState({});
+    const [announceVisible, setAnnounceVisible] = useState(false);
 
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -58,14 +61,18 @@ export default function History() {
     return (
         <View style={[{ backgroundColor: Constants.COLORS.GRAYISH_WHITE, position: 'relative' }, globalStyle.container]}>
             {loading && <CustomLoading />}
-            
+
             {/* Header */}
             <View style={globalStyle.headerContainer}>
                 <CustomText style={globalStyle.textTitle}>History</CustomText>
+                <TouchableOpacity activeOpacity={0.5} style={globalStyle.iconContainer} onPress={() => setAnnounceVisible(true)}>
+                    <Ionicons name={'megaphone-outline'} size={30} style={globalStyle.announceIcon} />
+                </TouchableOpacity>
             </View>
+            <AnnouncementModal visible={announceVisible} onClose={() => setAnnounceVisible(false)} />
 
             {/* Main Content */}
-            <ScrollView style={style.main} 
+            <ScrollView style={style.main}
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                 }
@@ -94,9 +101,9 @@ export default function History() {
                                     {viewData.name}
                                 </CustomText>
                                 <CustomText style={style.textHeader1}>
-                                    Book ID: <CustomText style={{color: Constants.COLORS.RED}}>
-                                     {viewData.bookid}
-                                </CustomText>
+                                    Book ID: <CustomText style={{ color: Constants.COLORS.RED }}>
+                                        {viewData.bookid}
+                                    </CustomText>
                                 </CustomText>
                             </View>
                         </View>
@@ -108,7 +115,7 @@ export default function History() {
                             <CustomText style={style.text}>
                                 Time: <CustomText style={[style.detailsText]}>{viewData.time}</CustomText>
                             </CustomText>
-                            <CustomText style={[style.text, {marginTop: Constants.MARGIN.REGULAR}]}>
+                            <CustomText style={[style.text, { marginTop: Constants.MARGIN.REGULAR }]}>
                                 Pickup Location: <CustomText style={[style.detailsText]}>{viewData.pickUpLoc}</CustomText>
                             </CustomText>
                             <CustomText style={style.text}>

@@ -9,7 +9,7 @@ import Profile from './pages/profile/Profile';
 import CCTV from './pages/cctv/CCTV';
 import History from './pages/history/History';
 import NewsFeed from './pages/newsFeed/NewsFeed';
-import Rating from './pages/report/Report';
+import Report from './pages/report/Report';
 
 
 const Tab = createBottomTabNavigator();
@@ -60,7 +60,7 @@ export default function MainLayout({ setIsAuthenticated }) {
             <Tab.Screen name='News Fare' component={NewsFeed} />
             <Tab.Screen name='History' component={History} />
             <Tab.Screen name='CCTV' component={CCTV} />
-            <Tab.Screen name='Report' component={Rating} />
+            <Tab.Screen name='Report' component={Report} />
             <Tab.Screen name='Profile' component={Profile} />
         </Tab.Navigator>
     )

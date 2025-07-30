@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl  } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
 import { Constants } from '../../../constants/constants';
 import { globalStyle } from '../../../utils/styles';
 import CustomText from '../../../components/CustomText';
@@ -7,10 +7,12 @@ import { Ionicons } from '@expo/vector-icons';
 import { CustomCardNews } from '../../../components/CustomCardNews';
 import { fetchNewsFare } from '../../../services/service';
 import CustomLoading from '../../../components/CustomLoading';
+import AnnouncementModal from '../announcement/Annnouncement';
 
 export default function NewsFeed() {
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [announceVisible, setAnnounceVisible] = useState(false);
 
     const [showSortOptions, setShowSortOptions] = useState(false);
     const [showDateOptions, setShowDateOptions] = useState(false);
@@ -22,7 +24,7 @@ export default function NewsFeed() {
     useEffect(() => {
         const initNews = async () => {
             setLoading(true);
-            const response = await fetchNewsFare(sortOrder, dateFilter );
+            const response = await fetchNewsFare(sortOrder, dateFilter);
             if (response.newsData) {
                 setData(response.newsData);
                 response.newsData.length < 1 && setNoData("No data to display.")
@@ -42,65 +44,69 @@ export default function NewsFeed() {
         }
         setRefreshing(false);
     };
-    
+
     return (
         <View style={[{ backgroundColor: Constants.COLORS.GRAYISH_WHITE, position: 'relative' }, globalStyle.container]}>
             {loading && <CustomLoading />}
             {/* Header */}
             <View style={globalStyle.headerContainer}>
                 <CustomText style={globalStyle.textTitle}>News Fare</CustomText>
+                <TouchableOpacity activeOpacity={0.5} style={globalStyle.iconContainer} onPress={() => setAnnounceVisible(true)}>
+                    <Ionicons name={'megaphone-outline'} size={30} style={globalStyle.announceIcon} />
+                </TouchableOpacity>
             </View>
-                <View style={style.filterBar}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            setShowSortOptions(!showSortOptions);
-                            setShowDateOptions(false);
-                        }}
-                        style={style.filterItem}
-                    >
-                        <Text style={style.filterValue}>{sortOrder} ˇ</Text>
-                    </TouchableOpacity>
+            <AnnouncementModal visible={announceVisible} onClose={() => setAnnounceVisible(false)} />
+            <View style={style.filterBar}>
+                <TouchableOpacity
+                    onPress={() => {
+                        setShowSortOptions(!showSortOptions);
+                        setShowDateOptions(false);
+                    }}
+                    style={style.filterItem}
+                >
+                    <Text style={style.filterValue}>{sortOrder} ˇ</Text>
+                </TouchableOpacity>
 
-                    <TouchableOpacity 
-                        onPress={() => {
-                            setShowSortOptions(false);
-                            setShowDateOptions(!showDateOptions);
-                        }}
-                     style={style.filterItem}>
-                        <Text style={style.filterValue}>{dateFilter} ˇ</Text>
-                    </TouchableOpacity>
+                <TouchableOpacity
+                    onPress={() => {
+                        setShowSortOptions(false);
+                        setShowDateOptions(!showDateOptions);
+                    }}
+                    style={style.filterItem}>
+                    <Text style={style.filterValue}>{dateFilter} ˇ</Text>
+                </TouchableOpacity>
+            </View>
+            {showSortOptions && (
+                <View style={style.dropdown}>
+                    {['Latest', 'Oldest'].map((option) => (
+                        <TouchableOpacity
+                            key={option}
+                            onPress={() => {
+                                setSortOrder(option);
+                                setShowSortOptions(false);
+                            }}
+                        >
+                            <Text style={style.dropdownItem}>{option}</Text>
+                        </TouchableOpacity>
+                    ))}
                 </View>
-                {showSortOptions && (
-                    <View style={style.dropdown}>
-                        {['Latest', 'Oldest'].map((option) => (
-                            <TouchableOpacity
-                                key={option}
-                                onPress={() => {
-                                    setSortOrder(option);
-                                    setShowSortOptions(false);
-                                }}
-                            >
-                                <Text style={style.dropdownItem}>{option}</Text>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                )}
+            )}
 
-                {showDateOptions && (
-                    <View style={style.dropdown}>
-                        {['Last 24h', 'This Month', 'This Year'].map((option) => (
-                            <TouchableOpacity
-                                key={option}
-                                onPress={() => {
-                                    setDateFilter(option);
-                                    setShowDateOptions(false);
-                                }}
-                            >
-                                <Text style={style.dropdownItem}>{option}</Text>
-                            </TouchableOpacity>
-                        ))}
-                    </View>
-                )}
+            {showDateOptions && (
+                <View style={style.dropdown}>
+                    {['Last 24h', 'This Month', 'This Year'].map((option) => (
+                        <TouchableOpacity
+                            key={option}
+                            onPress={() => {
+                                setDateFilter(option);
+                                setShowDateOptions(false);
+                            }}
+                        >
+                            <Text style={style.dropdownItem}>{option}</Text>
+                        </TouchableOpacity>
+                    ))}
+                </View>
+            )}
 
 
             {/* Main Content */}

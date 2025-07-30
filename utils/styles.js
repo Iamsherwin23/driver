@@ -7,7 +7,7 @@ const globalStyle = StyleSheet.create({
     },
 
     // Header
-    headerContainer: {  
+    headerContainer: {
         flex: 0,
         padding: Constants.PADDING.REGULAR,
         paddingTop: Constants.PADDING.MEDIUM,
@@ -19,7 +19,17 @@ const globalStyle = StyleSheet.create({
         color: Constants.COLORS.WHITE,
         fontSize: Constants.SIZE.HEADINGS,
         fontFamily: 'Montserrat-Bold'
-    }
+    },
+    iconContainer: {
+        position: 'absolute',
+        right: '10%',
+        top: 50,
+    },
+    announceIcon: {
+        transform: [{ rotate: '-30deg' }],
+        color: Constants.COLORS.WHITE
+    },
+
 });
 
-export {globalStyle};
+export { globalStyle };

@@ -7,10 +7,13 @@ import { reportStyles } from './reportStyles';
 import { fetchReportBookings, submitBookingReport } from '../../../services/service';
 import RNPickerSelect from 'react-native-picker-select';
 import CustomMessageModal from '../../../components/CustomMessageModal';
+import { Ionicons } from '@expo/vector-icons';
+
+import AnnouncementModal from '../announcement/Annnouncement';
 
 export default function Report() {
     const [concern, setConcern] = useState('');
-
+    const [announceVisible, setAnnounceVisible] = useState(false);
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [modalVisible, setModalVisible] = useState(false);
@@ -59,9 +62,9 @@ export default function Report() {
     const onRefresh = async () => {
         setRefreshing(true);
         const response = await fetchReportBookings();
-            if (response.bookingData) {
-                setData(response.bookingData);
-            }
+        if (response.bookingData) {
+            setData(response.bookingData);
+        }
         setRefreshing(false);
     };
 
@@ -76,14 +79,17 @@ export default function Report() {
             />
             <View style={globalStyle.headerContainer}>
                 <CustomText style={globalStyle.textTitle}>Report</CustomText>
+                <TouchableOpacity activeOpacity={0.5} style={globalStyle.iconContainer} onPress={() => setAnnounceVisible(true)}>
+                    <Ionicons name={'megaphone-outline'} size={30} style={globalStyle.announceIcon} />
+                </TouchableOpacity>
             </View>
-
+            <AnnouncementModal visible={announceVisible} onClose={() => setAnnounceVisible(false)} />
             {/* mainContainer */}
             <View style={reportStyles.main}>
                 <ScrollView
                     refreshControl={
                         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                }>
+                    }>
                     <View style={reportStyles.form}>
                         <View style={reportStyles.header}>
                             <CustomText style={reportStyles.headertext}>
@@ -133,7 +139,7 @@ export default function Report() {
                                 numberOfLines={15}
                                 value={concern}
                                 onChangeText={(text) => {
-                                    if (text.length <= 10) {
+                                    if (text.length <= 200) {
                                         setConcern(text);
                                     }
                                 }}

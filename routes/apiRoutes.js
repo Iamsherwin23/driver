@@ -9,6 +9,7 @@ const apiRoutes = {
     updateProfile: mainRoute.concat("/api/driver/updateProfile"),
     getBookings: mainRoute.concat("/api/driver/getBookings"),
     sumbitReport: mainRoute.concat("/api/driver/sumbitReport"),
+    getAnnouncement: mainRoute.concat("/api/driver/getAnnouncement"),
 }
 
 export { apiRoutes };

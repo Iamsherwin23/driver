@@ -11,8 +11,12 @@ import { fetchUserProfile, updateUserProfile } from '../../../services/service';
 import CustomLoading from '../../../components/CustomLoading';
 import CustomMessageModal from '../../../components/CustomMessageModal';
 
+import AnnouncementModal from '../announcement/Annnouncement';
+import { globalStyle } from '../../../utils/styles.js';
+
 export default function Profile() {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+    const [announceVisible, setAnnounceVisible] = useState(false);
     const [user, setUser] = useState('');
     const [fullname, setFullname] = useState('');
     const [contact, setContact] = useState('');
@@ -50,6 +54,10 @@ export default function Profile() {
                 setSelectedGender(response.profile.gender || null);
                 setImageSource(response.profile.id_picture);
             }
+            else {
+                setModalVisible(true)
+                setResponseMsg(response)
+            }
             setLoading(false);
         };
 
@@ -74,6 +82,10 @@ export default function Profile() {
                 setSelectedGender(response.profile.gender || null);
                 setImageSource(response.profile.id_picture);
             }
+            else {
+                setModalVisible(true)
+                setResponseMsg(response)
+            }
             setLoading(false);
         };
         reloadProfile();
@@ -92,7 +104,7 @@ export default function Profile() {
             setLoading(true);
             const response = await updateUserProfile(firstName, lastName, email, address, contactNumber, license, selectedGender);
 
-            if(response.status == 200) {
+            if (response.status == 200) {
                 setUser(response.profile.username);
                 setFullname(response.profile.fullname);
                 setContact(response.profile.contact);
@@ -102,20 +114,24 @@ export default function Profile() {
                 setResponseStatus(response.status);
                 setResponseMsg(response.message)
             }
-            else {
+            else if (response.status == 500 || response.status == 404) {
                 setModalVisible(true)
                 setResponseStatus(response.status);
                 setResponseMsg(response.message)
             }
+            else {
+                setModalVisible(true)
+                setResponseMsg(response)
+            }
             setLoading(false);
-        } 
+        }
     };
 
 
     return (
         <View style={[{ backgroundColor: Constants.COLORS.GRAYISH_WHITE }, profileStyles.view]}>
             {loading && <CustomLoading />}
-            <CustomMessageModal 
+            <CustomMessageModal
                 visible={modalVisible}
                 onClose={() => setModalVisible(false)}
                 message={responseMsg}
@@ -123,7 +139,12 @@ export default function Profile() {
             />
             <View style={profileStyles.headerContainer}>
                 <CustomText style={profileStyles.textTitle}>Profile</CustomText>
+                <TouchableOpacity activeOpacity={0.5} style={globalStyle.iconContainer} onPress={() => setAnnounceVisible(true)}>
+                    <Ionicons name={'megaphone-outline'} size={30} style={globalStyle.announceIcon} />
+                </TouchableOpacity>
             </View>
+            <AnnouncementModal visible={announceVisible} onClose={() => setAnnounceVisible(false)} />
+
             <View style={{ flex: 1 }}>
                 <View style={profileStyles.profileHeader}>
                     {/* <View style={{padding: 10}}>
@@ -144,14 +165,14 @@ export default function Profile() {
                     </View>
                     <View style={{ padding: Constants.PADDING.REGULAR }}>
                         {!edit ?
-                            <TouchableOpacity onPress={() => {setEdit(true)} }>
+                            <TouchableOpacity onPress={() => { setEdit(true) }}>
                                 <Ionicons name={'create-outline'} size={30} color={Constants.COLORS.BLACK} />
                             </TouchableOpacity> :
                             <TouchableOpacity onPress={handleCancel}>
                                 <Ionicons name={'close-circle-outline'} size={30} color={Constants.COLORS.BLACK} />
                             </TouchableOpacity>
                         }
-                        
+
                     </View>
                 </View>
                 <View style={profileStyles.main}>
@@ -161,20 +182,20 @@ export default function Profile() {
                                 <View style={profileStyles.inputContainer}>
                                     <CustomText style={profileStyles.formLabel}>First Name</CustomText>
                                     {/* <CustomText style={profileStyles.formLabel}>{imageSource}</CustomText> */}
-                                    <TextInput  editable={edit}  style={[profileStyles.formInput, !firstName && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={firstName} onChangeText={setFirstName} />
+                                    <TextInput editable={edit} style={[profileStyles.formInput, !firstName && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={firstName} onChangeText={setFirstName} />
                                 </View>
                                 <View style={profileStyles.inputContainer}>
                                     <CustomText style={profileStyles.formLabel}>Last Name</CustomText>
-                                    <TextInput  editable={edit}  style={[profileStyles.formInput, !lastName && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={lastName} onChangeText={setLastName} />
+                                    <TextInput editable={edit} style={[profileStyles.formInput, !lastName && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={lastName} onChangeText={setLastName} />
                                 </View>
                             </View>
                             <View style={profileStyles.inputContainer1}>
                                 <CustomText style={profileStyles.formLabel}>Contact Number</CustomText>
-                                <TextInput keyboardType="number-pad"  editable={edit}  style={[profileStyles.formInput, !contactNumber && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={contactNumber} onChangeText={setContactNumber} />
+                                <TextInput keyboardType="number-pad" editable={edit} style={[profileStyles.formInput, !contactNumber && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={contactNumber} onChangeText={setContactNumber} />
                             </View>
                             <View style={profileStyles.inputContainer1}>
                                 <CustomText style={profileStyles.formLabel}>Driver License</CustomText>
-                                <TextInput  editable={edit}  style={[profileStyles.formInput, !license && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={license} onChangeText={setLicense} />
+                                <TextInput editable={edit} style={[profileStyles.formInput, !license && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={license} onChangeText={setLicense} />
                             </View>
                             <View style={profileStyles.inputContainer1}>
                                 <CustomText style={profileStyles.formLabel}>Gender</CustomText>
@@ -199,22 +220,22 @@ export default function Profile() {
                             </View>
                             <View style={profileStyles.inputContainer1}>
                                 <CustomText style={profileStyles.formLabel}>Email</CustomText>
-                                <TextInput  editable={edit} keyboardType="email-address" autoCapitalize="none" style={[profileStyles.formInput, !email && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={email} onChangeText={setEmail} />
+                                <TextInput editable={edit} keyboardType="email-address" autoCapitalize="none" style={[profileStyles.formInput, !email && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={email} onChangeText={setEmail} />
                             </View>
                             <View style={[profileStyles.inputContainer1, { paddingBottom: 15 }]}>
                                 <CustomText style={profileStyles.formLabel}>Complete Address</CustomText>
-                                <TextInput  editable={edit}  style={[profileStyles.formInput, !address && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={address} onChangeText={setAddress} />
+                                <TextInput editable={edit} style={[profileStyles.formInput, !address && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={address} onChangeText={setAddress} />
                             </View>
                         </View>
                     </ScrollView>
                 </View>
                 <View>
-                    <TouchableOpacity onPress={logOut} style={{backgroundColor: Constants.COLORS.RED_TINT }}>
-                        <CustomText style={[profileStyles.customButton, {color: Constants.COLORS.RED }]}>Log out</CustomText>
+                    <TouchableOpacity onPress={logOut} style={{ backgroundColor: Constants.COLORS.RED_TINT }}>
+                        <CustomText style={[profileStyles.customButton, { color: Constants.COLORS.RED }]}>Log out</CustomText>
                     </TouchableOpacity>
                     {edit &&
-                        <TouchableOpacity activeOpacity={0.5} onPress={handleSave} style={{backgroundColor: Constants.COLORS.RED }}>
-                            <CustomText style={[profileStyles.customButton,{ color: Constants.COLORS.WHITE }]}>SAVE</CustomText>
+                        <TouchableOpacity activeOpacity={0.5} onPress={handleSave} style={{ backgroundColor: Constants.COLORS.RED }}>
+                            <CustomText style={[profileStyles.customButton, { color: Constants.COLORS.WHITE }]}>SAVE</CustomText>
                         </TouchableOpacity>
                     }
                 </View>
