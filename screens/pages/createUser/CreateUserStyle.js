@@ -21,7 +21,7 @@ const createUserStyle = StyleSheet.create({
     headerTitle: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'left',
         paddingLeft: Constants.PADDING.SMALL,
         paddingRight: Constants.PADDING.SMALL,
     },  
@@ -41,6 +41,7 @@ const createUserStyle = StyleSheet.create({
     form_Name: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        marginTop: 10,
         gap: Constants.SIZE.REGULAR
     },
     icon: {
@@ -54,11 +55,19 @@ const createUserStyle = StyleSheet.create({
         borderRadius: Constants.BORDERS.RADIUS_SMALL
     },
     footer: {
-        padding: 20,
         justifyContent: 'center',
-        alignItems: 'center',
-        paddingBottom: Constants.PADDING.LARGE
-    }
+        paddingBottom: Constants.PADDING.LARGE,
+        paddingTop: Constants.PADDING.SMALL
+    },
+    signupBtn: {
+        backgroundColor: Constants.COLORS.RED,
+        color: Constants.COLORS.WHITE,
+        fontFamily: 'Montserrat-Bold',
+        fontSize: Constants.SIZE.REGULAR,
+        textAlign: 'center',
+        borderRadius: Constants.BORDERS.RADIUS_SMALL,
+        padding: Constants.PADDING.SMALL
+    },
 });
 
 export { createUserStyle };

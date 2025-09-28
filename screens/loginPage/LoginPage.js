@@ -1,5 +1,5 @@
 // External imports
-import { View, Text, StyleSheet, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, TextInput, KeyboardAvoidingView, Platform, Image } from 'react-native';
 import React, { useState, useContext } from 'react';
 import { Constants } from '../../constants/constants';
 import { Ionicons } from '@expo/vector-icons';
@@ -11,7 +11,7 @@ import { loginStyle } from './loginPageStyles';
 import { AuthContext } from '../../context/AuthContext.js';
 import { loginTest } from '../../services/service.js';
 import { CustomMessage } from '../../components/Message.js';
-import CustomLoadingBar from '../../components/CustomLoadingBar.js'; 
+import CustomLoadingBar from '../../components/CustomLoadingBar.js';
 import CustomLoading from '../../components/CustomLoading.js';
 
 export default function LoginPage({ navigation }) {
@@ -39,27 +39,27 @@ export default function LoginPage({ navigation }) {
         //     setMessageColor(Constants.COLORS.YELLOW);
         //     setData("Please don't leave any blanks");
         // } else {
-            setIsLoading(true);
-            const apiResult = await loginTest('jenna@gmail.com', 'Sarco123!', access_level);
-            setIsLoading(false);
-            if (apiResult.status == 400) { 
-                setMsg(true);
-                setTimeout(() => {
-                    setMsg(false); 
-                }, 2000);
-                setMessageColor(Constants.COLORS.RED);
-                setData(apiResult.message);
+        setIsLoading(true);
+        const apiResult = await loginTest('jenna@gmail.com', 'Sarco123!', access_level);
+        setIsLoading(false);
+        if (apiResult.status == 400) {
+            setMsg(true);
+            setTimeout(() => {
+                setMsg(false);
+            }, 2000);
+            setMessageColor(Constants.COLORS.RED);
+            setData(apiResult.message);
 
-            } else if (apiResult.status == 200) {
-                // setMessageColor(Constants.COLORS.GREEN);
-                // setMsg(true);
-                // setData(apiResult.message);
-                await AsyncStorage.setItem('token', apiResult.access_token);
-                await AsyncStorage.setItem('user', apiResult.user);
-                await AsyncStorage.setItem('fullname', apiResult.fullname);
-                await AsyncStorage.setItem('contact', apiResult.contact);
-                setIsAuthenticated(true); // this triggers page change
-            }
+        } else if (apiResult.status == 200) {
+            // setMessageColor(Constants.COLORS.GREEN);
+            // setMsg(true);
+            // setData(apiResult.message);
+            await AsyncStorage.setItem('token', apiResult.access_token);
+            await AsyncStorage.setItem('user', apiResult.user);
+            await AsyncStorage.setItem('fullname', apiResult.fullname);
+            await AsyncStorage.setItem('contact', apiResult.contact);
+            setIsAuthenticated(true); // this triggers page change
+        }
 
         // }
 
@@ -74,12 +74,21 @@ export default function LoginPage({ navigation }) {
         >
             <View style={loginStyle.container}>
                 {
-                    isLoading ? <CustomLoading/> : null
+                    isLoading ? <CustomLoading /> : null
                 }
                 {/* Header */}
                 <View style={loginStyle.header}>
-                    <CustomText style={loginStyle.label}>Hi! Welcome To</CustomText>
-                    <CustomText style={loginStyle.label2}>TrikeFare</CustomText>
+                    <View style={loginStyle.logoContainer}> 
+                        <CustomText style={loginStyle.label}>Hi!</CustomText>
+                        <Image
+                            source={require('../../assets/img/tricycle.png')} // put your image in assets folder
+                            style={{ width: 100, height: 50, transform: [{ scaleX: -1 }] }} // adjust size & spacing
+                            resizeMode="contain"
+                        />
+                    </View>
+
+                    <CustomText style={loginStyle.label}>Welcome to</CustomText>
+                    <CustomText style={loginStyle.label2}>TRIKEFARE</CustomText>
 
                 </View>
                 <View style={loginStyle.main}>

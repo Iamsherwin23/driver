@@ -41,6 +41,12 @@ export default function Home() {
                 >
                     {netStatus}
                 </CustomText>
+                {netStatus === 'Offline' &&
+                <CustomText style={style.warningMesage}>
+                     Chek your internet connection.
+                </CustomText>
+                }
+                
                 <TouchableOpacity
                     activeOpacity={0.5}
                     style={globalStyle.iconContainer}
@@ -58,10 +64,15 @@ export default function Home() {
                 visible={announceVisible}
                 onClose={() => setAnnounceVisible(false)}
             />
-            <PassengerTargetCard />
+
+            {/*show this when offline */}
+            <PassengerTargetCard netStatus={netStatus}/>
+
+            {/* show this when online */}
         </View>
     );
 }
+
 
 const style = StyleSheet.create({
     view: {
@@ -82,5 +93,10 @@ const style = StyleSheet.create({
         fontWeight: 'bold',
         alignSelf: 'flex-start',
     },
+    warningMesage: {
+        fontWeight: 'bold',
+        fontStyle: 'italic',
+        top: 15,
+    }
 
 });

@@ -26,30 +26,24 @@ const CustomCard = ({ details, pressFunc }) => {
                 {/* Date */}
                 <View style={[style.details, { flexDirection: 'row' }]}>
                     <CustomText style={[style.messageLabel, { color: Constants.COLORS.RED }]}>Date: </CustomText>
-                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.date_booked}</CustomText>
-                </View>
-
-                {/* Time */}
-                <View style={[style.details, { flexDirection: 'row' }]}>
-                    <CustomText style={[style.messageLabel, { color: Constants.COLORS.RED }]}>Time: </CustomText>
-                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.time_booked}</CustomText>
+                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.date_booked} {details.time_booked}</CustomText>
                 </View>
 
                 {/* Name */}
                 <View style={[{ flexDirection: 'row' }]}>
-                    <CustomText style={[style.messageLabel, { color: Constants.COLORS.BLACK }]}>Name: </CustomText>
+                    <CustomText style={[style.messageLabel, { color: Constants.COLORS.BLACK }]}>Passenger: </CustomText>
                     <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.passenger_name}</CustomText>
                 </View>
 
                 {/* Pick Up Loc */}
                 <View style={[style.details, { flexDirection: 'row' }]}>
-                    <CustomText style={[style.messageLabel, { color: Constants.COLORS.BLUE }]}>Pickup Location: </CustomText>
+                    <CustomText style={[style.messageLabel, { color: Constants.COLORS.BLACK }]}>Pickup Location: </CustomText>
                     <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.location_from}</CustomText>
                 </View>
 
                 {/* Drop off Loc */}
                 <View style={[style.details, { flexDirection: 'row' }]}>
-                    <CustomText style={[style.messageLabel, { color: Constants.COLORS.RED }]}>Drop-off Location: </CustomText>
+                    <CustomText style={[style.messageLabel, { color: Constants.COLORS.BLACK }]}>Drop-off Location: </CustomText>
                     <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.location_to}</CustomText>
                 </View>
 

@@ -10,12 +10,13 @@ import CustomMessageModal from '../../../components/CustomMessageModal';
 import { Ionicons } from '@expo/vector-icons';
 
 import AnnouncementModal from '../announcement/Annnouncement';
+import CustomLoading from '../../../components/CustomLoading';
 
 export default function Report() {
     const [concern, setConcern] = useState('');
     const [announceVisible, setAnnounceVisible] = useState(false);
     const [data, setData] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
     const [modalVisible, setModalVisible] = useState(false);
     const [responseMsg, setResponseMsg] = useState('');
     const [responseStatus, setResponseStatus] = useState('');
@@ -25,12 +26,12 @@ export default function Report() {
 
     useEffect(() => {
         const initBookingList = async () => {
-            setLoading(true);
+            // setLoading(true);
             const response = await fetchReportBookings();
             if (response.bookingData) {
                 setData(response.bookingData);
             }
-            setLoading(false);
+            // setLoading(false);
         };
 
         initBookingList();
@@ -44,6 +45,7 @@ export default function Report() {
             return;
         }
         if (concern.trim()) {
+            setLoading(true);
             const response = await submitBookingReport(selectedBookingId, concern);
             setModalVisible(true)
             setResponseMsg(response.message)
@@ -52,6 +54,8 @@ export default function Report() {
             if (response.status == 200) {
                 setRefreshKey(prev => prev + 1);
             }
+            setLoading(false);
+
         } else {
             setModalVisible(true)
             setResponseMsg('Concern is empty.')
@@ -70,6 +74,8 @@ export default function Report() {
 
     return (
         <View style={[{ backgroundColor: Constants.COLORS.GRAYISH_WHITE }, globalStyle.container]}>
+            {loading && <CustomLoading />}
+            
             {/* Header */}
             <CustomMessageModal
                 visible={modalVisible}
@@ -118,7 +124,7 @@ export default function Report() {
                                     inputAndroid: {
                                         fontSize: 16,
                                         paddingHorizontal: 10,
-                                        borderRadius: 20,
+                                        borderRadius: 100,
                                         backgroundColor: Constants.COLORS.WHITE,
                                         color: Constants.COLORS.BLACK,
                                         paddingRight: 30,

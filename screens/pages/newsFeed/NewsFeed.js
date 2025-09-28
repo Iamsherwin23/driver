@@ -17,7 +17,7 @@ export default function NewsFeed() {
     const [showSortOptions, setShowSortOptions] = useState(false);
     const [showDateOptions, setShowDateOptions] = useState(false);
     const [sortOrder, setSortOrder] = useState('Latest');
-    const [dateFilter, setDateFilter] = useState('Last 24h');
+    const [dateFilter, setDateFilter] = useState('This Year');
     const [refreshing, setRefreshing] = useState(false);
     const [nodata, setNoData] = useState('');
 

@@ -22,13 +22,15 @@ const Constants = {
         LABELS: 12,
         SMALL: 10,
         MEDIUM: 24,
-        X_MEDIUM: 20
+        X_MEDIUM: 20,
+        X_LARGE: 55
     },
 
     PADDING:{
         REGULAR: 24,
         MEDIUM: 40,
         LARGE: 80,
+        X_LARGE: 100,
         SMALL: 12,
         XSMALL: 5,
     },
@@ -47,7 +49,10 @@ const Constants = {
 
     API_ROUTE: {
         // Local
-        API_ENDPOINT: "http://10.0.2.2:8000",
+        // API_ENDPOINT: "http://10.0.2.2:8000",
+
+        API_ENDPOINT: "http://192.168.1.30:8000",
+
         // Production
         // API_ENDPOINT: "https://trikefare.com/server/public"
     }

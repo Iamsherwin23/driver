@@ -84,7 +84,7 @@ export const submitBookingReport = async (selectedBookingId, concern) => {
         });
         return await res.json();
     } catch (err) {
-        console.log('Error fetching history:', err);
+        console.log('Error submitting report:', err);
     }
 };
 
@@ -148,6 +148,32 @@ export const updateUserProfile = async (firstName, lastName, email, address, con
     } catch (err) {
         return `Error updating profile: ${err}`;
     }
+};
+
+export const createDriver = async (firstName, lastName, email, address, contactNumber, license, selectedGender, password) => {
+    try {
+        const genderValue = selectedGender === "Male" ? "M" : selectedGender === "Female" ? "F" : null;
+        const res = await fetch(apiRoutes.createDriver, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                first_name: firstName,
+                last_name: lastName,
+                email,
+                address,
+                contact_number: contactNumber,
+                id_number: license,
+                gender: genderValue,
+                password: password,
+            }),
+        });
+        return await res.json();
+    } catch (err) {
+        return `Error creating driver: ${err}`;
+    }
+
 };
 
 

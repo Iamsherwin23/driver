@@ -1,12 +1,18 @@
 import React from 'react';
 import { View, Text, StyleSheet, Dimensions } from 'react-native';
+import PropTypes from 'prop-types';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 
-const PassengerTargetCard = ({ current = 0, target = 0 }) => {
+const PassengerTargetCard = ({ netStatus, current = 0, target = 0 }) => {
     return (
         <View style={styles.container}>
-            <View style={styles.card}>
+            <View
+                style={[
+                    styles.card,
+                    { height: SCREEN_HEIGHT * (netStatus === 'Offline' ? 0.73 : 0.75) },
+                ]}
+            >
                 <View style={styles.circle}>
                     <Text style={styles.circleLabel}>Passenger</Text>
                 </View>
@@ -16,6 +22,12 @@ const PassengerTargetCard = ({ current = 0, target = 0 }) => {
             </View>
         </View>
     );
+};
+
+PassengerTargetCard.propTypes = {
+    netStatus: PropTypes.string.isRequired,
+    current: PropTypes.number,
+    target: PropTypes.number,
 };
 
 const styles = StyleSheet.create({
@@ -29,7 +41,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         borderRadius: 5,
         backgroundColor: '#fff',
-        height: SCREEN_HEIGHT * 0.75, // 45% of screen height
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.1,
