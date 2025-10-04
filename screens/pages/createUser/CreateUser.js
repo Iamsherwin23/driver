@@ -118,11 +118,11 @@ export default function CreateUserPage({ navigation }) {
             </View>
 
             {/* Form */}
-            <KeyboardAwareScrollView
+            {/* <KeyboardAwareScrollView
                 style={{ flex: 1 }}
                 enableOnAndroid={true}
                 keyboardShouldPersistTaps="handled"
-            >
+            > */}
                 <View style={createUserStyle.form}>
                     {/* Email */}
                     <View style={{ marginTop: 10 }}>
@@ -254,7 +254,7 @@ export default function CreateUserPage({ navigation }) {
                         </TouchableOpacity>
                     </View>
                 </View>
-            </KeyboardAwareScrollView>
+            {/* </KeyboardAwareScrollView> */}
         </View>
     );
 }

@@ -1,6 +1,5 @@
 import { StyleSheet } from "react-native";
 import { Constants } from "../../../constants/constants";
-import { Colors } from "react-native/Libraries/NewAppScreen";
 
 const createUserStyle = StyleSheet.create({
     mainContainer: {

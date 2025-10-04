@@ -4,30 +4,48 @@
     "slug": "trikeFare",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/logo_load.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/logo_load.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.sarcodev.trikeFare",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "TrikeFare needs your location to show nearby pickups.",
+        "ITSAppUsesNonExemptEncryption": false
+      },
+      "config": {
+        "googleMapsApiKey": "AIzaSyD9pyFO6fpx_--KOUHD26p4ZeNKFrY3nM8"
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/logo_load.png",
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "softwareKeyboardLayoutMode": "pan"
+      "softwareKeyboardLayoutMode": "pan",
+      "permissions": [
+        "ACCESS_FINE_LOCATION"
+      ],
+      "package": "com.sarcodev.trikeFare",
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyD9pyFO6fpx_--KOUHD26p4ZeNKFrY3nM8"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "extra": {}
   }
 }

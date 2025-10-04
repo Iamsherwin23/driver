@@ -22,13 +22,13 @@ export function isEmpty(obj) {
 };
 
 export function formatCurrency(amount) {
-    if (isNaN(amount) || amount === '') return '0';
-    if (amount.startsWith('0') && amount.length > 1 && !amount.includes('.')) {
-        return amount.slice(1);
-    }
-    return amount;
+    if (amount === null || amount === undefined || amount === '') return '0.00';
+    const num = Number(amount);
+    if (isNaN(num)) return '0.00';
 
+    return num.toFixed(2); // ensures 2 decimals always
 }
+
 export function isEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email); // true if valid email, false otherwise

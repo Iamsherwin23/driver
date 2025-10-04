@@ -1,8 +1,6 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Constants } from '../../../constants/constants';
-import { RegularPage } from './regular/Regular.js';
-import { SpecialPage } from './special/Special.js';
 import CustomText from '../../../components/CustomText';
 import { Ionicons } from '@expo/vector-icons';
 import AnnouncementModal from '../announcement/Annnouncement';
@@ -10,12 +8,14 @@ import { globalStyle } from '../../../utils/styles.js';
 import { useEffect, useState } from 'react';
 import NetInfo from '@react-native-community/netinfo';
 import PassengerTargetCard from './PassengerTargetCard.js';
-
+import { BookingContainerPage } from './bookingPage/BookingContainerPage.js';
+import CustomLoading from '../../../components/CustomLoading.js';
 const Tab = createMaterialTopTabNavigator();
 
 export default function Home() {
     const [announceVisible, setAnnounceVisible] = useState(false);
     const [netStatus, setNetStatus] = useState('Checking...');
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const unsubscribe = NetInfo.addEventListener(state => {
@@ -27,8 +27,18 @@ export default function Home() {
         };
     }, []);
 
+    const triggerHomeLoadingTrue = () => {
+        console.log("TRIGGERED TRUE")
+        setLoading(true);
+    }
+    const triggerHomeLoadingFalse = () => {
+        console.log("TRIGGERED FALSE")
+        setLoading(false);
+    }
+
     return (
         <View style={style.view}>
+            {loading && <CustomLoading />}
             <View style={style.headerContainer}>
                 <CustomText
                     style={[
@@ -42,11 +52,11 @@ export default function Home() {
                     {netStatus}
                 </CustomText>
                 {netStatus === 'Offline' &&
-                <CustomText style={style.warningMesage}>
-                     Chek your internet connection.
-                </CustomText>
+                    <CustomText style={style.warningMesage}>
+                        Chek your internet connection.
+                    </CustomText>
                 }
-                
+
                 <TouchableOpacity
                     activeOpacity={0.5}
                     style={globalStyle.iconContainer}
@@ -66,9 +76,17 @@ export default function Home() {
             />
 
             {/*show this when offline */}
-            <PassengerTargetCard netStatus={netStatus}/>
+            {
+                netStatus === "Offline" ?
+                    <PassengerTargetCard netStatus={netStatus} />
+                    : <BookingContainerPage
+                        triggerHomeLoadingTrue={triggerHomeLoadingTrue}
+                        triggerHomeLoadingFalse={triggerHomeLoadingFalse}
+                    />
+            }
 
             {/* show this when online */}
+
         </View>
     );
 }

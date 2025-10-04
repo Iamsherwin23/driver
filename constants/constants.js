@@ -17,6 +17,7 @@ const Constants = {
 
     SIZE: {
         REGULAR: 16,
+        X_REGULAR: 18,
         HEADINGS: 32,
         LARGE: 45,
         LABELS: 12,
@@ -32,7 +33,7 @@ const Constants = {
         LARGE: 80,
         X_LARGE: 100,
         SMALL: 12,
-        XSMALL: 5,
+        XSMALL: 8,
     },
     MARGIN:{
         REGULAR: 24,

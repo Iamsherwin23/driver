@@ -4,6 +4,15 @@ const mainRoute = Constants.API_ROUTE.API_ENDPOINT;
 const apiRoutes = {
     loginRoute: mainRoute.concat("/api/login"),
     createDriver: mainRoute.concat("/api/driver/createDriver"),
+    getCurrentBookings: mainRoute.concat("/api/driver/getCurrentBookings"),
+    getMyBookings: mainRoute.concat("/api/driver/getMyBookings"),
+    getMyBookings: mainRoute.concat("/api/driver/getMyBookings"),
+    acceptBookingStatus: mainRoute.concat("/api/driver/acceptBookingStatus"),
+    cancelBookingStatus: mainRoute.concat("/api/driver/cancelBookingStatus"),
+    startBookingStatus: mainRoute.concat("/api/driver/startBookingStatus"),
+    finishBookingStatus: mainRoute.concat("/api/driver/finishBookingStatus"),
+
+
     getNewsFare: mainRoute.concat("/api/driver/getNewsFare"),
     getHistory: mainRoute.concat("/api/driver/getHistory"),
     getProfile: mainRoute.concat("/api/driver/getProfile"),

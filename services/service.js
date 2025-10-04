@@ -16,6 +16,118 @@ export const loginTest = async (username, password, access_level) => { //test lo
     }
 }
 
+//Home Page
+export const fetchCurrentBookings = async () => {
+    try {
+        const res = await fetch(apiRoutes.getCurrentBookings, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        return await res.json();
+        
+    } catch (err) {
+        console.log('Error fetching bookings:', err);
+        return `Something went wrong fetching bookings.`;
+        // return `Error fetching bookings: ${err}`;
+    }
+};
+
+//Home Page
+export const fetchMyBookings = async () => {
+    try {
+        const res = await fetch(apiRoutes.getMyBookings, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
+        return await res.json();
+        
+    } catch (err) {
+        console.log('Error fetching current booking.', err);
+        return `Something went wrong fetching current bookings.`;
+        // return `Error fetching bookings: ${err}`;
+    }
+};
+
+export const handleAcceptNow = async (bookid) => {
+    try {
+        const res = await fetch(apiRoutes.acceptBookingStatus, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                bookid
+            }),
+        });
+        console.log(res); 
+        return await res.json();
+    } catch (err) {
+        console.log('Something went wrong accepting booking:', err); 
+        return `Something went wrong accepting booking.`;
+    }
+};
+
+export const handleCancelNow = async (bookid) => {
+    try {
+        const res = await fetch(apiRoutes.cancelBookingStatus, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                bookid
+            }),
+        });
+        console.log(res); 
+        return await res.json();
+    } catch (err) {
+        console.log('Something went wrong cancelling booking:', err); 
+        return `Something went wrong cancelling booking.`;
+    }
+};
+export const handleStartNow = async (bookid) => {
+    try {
+        const res = await fetch(apiRoutes.startBookingStatus, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                bookid
+            }),
+        });
+        console.log(res); 
+        return await res.json();
+    } catch (err) {
+        console.log('Something went wrong starting booking:', err); 
+        return `Something went wrong starting booking.`;
+    }
+};
+
+export const handleFinishNow = async (bookid) => {
+    try {
+        const res = await fetch(apiRoutes.finishBookingStatus, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                bookid
+            }),
+        });
+        console.log(res); 
+        return await res.json();
+    } catch (err) {
+        console.log('Something went wrong compeleting booking:', err); 
+        return `Something went wrong cmpleting booking.`;
+    }
+};
+
+
 //News Fare Page
 export const fetchNewsFare = async (sortOrder, dateFilter) => {
     try {
@@ -33,11 +145,11 @@ export const fetchNewsFare = async (sortOrder, dateFilter) => {
         return await res.json();
     } catch (err) {
         console.log('Error fetching news fare:', err);
-        return `Error fetching news fare: ${err}`;
+        return `Something went wrong fetching news fare.`;
     }
 };
 
-//News Fare Page
+//Reprt Page
 export const fetchHistory = async () => {
     try {
         const res = await fetch(apiRoutes.getHistory, {
@@ -50,7 +162,7 @@ export const fetchHistory = async () => {
         return await res.json();
     } catch (err) {
         console.log('Error fetching history:', err);
-        return `Error fetching history: ${err}`;
+        return `Something went wrong fetching history.`;
     }
 };
 
@@ -66,7 +178,7 @@ export const fetchReportBookings = async () => {
 
         return await res.json();
     } catch (err) {
-        console.log('Error fetching bookings:', err);
+        console.log('Something went wrong fetching bookings:', err);
     }
 };
 
@@ -84,7 +196,7 @@ export const submitBookingReport = async (selectedBookingId, concern) => {
         });
         return await res.json();
     } catch (err) {
-        console.log('Error submitting report:', err);
+        console.log('Something went wrong submitting report:', err);
     }
 };
 
@@ -101,7 +213,7 @@ export const fetchAnnouncement = async () => {
 
         return await res.json();
     } catch (err) {
-        return `Error fetching annoucement: ${err}`;
+        return `Something went wrong fetching annoucement.`;
     }
 };
 
@@ -117,7 +229,7 @@ export const fetchUserProfile = async () => {
 
         return await res.json();
     } catch (err) {
-        return `Error fetching profile: ${err}`;
+        return `Something went wrong fetching profile.`;
     }
 };
 
@@ -146,7 +258,7 @@ export const updateUserProfile = async (firstName, lastName, email, address, con
         return await res.json();
 
     } catch (err) {
-        return `Error updating profile: ${err}`;
+        return `Something went wrong updating profile.`;
     }
 };
 
@@ -171,7 +283,7 @@ export const createDriver = async (firstName, lastName, email, address, contactN
         });
         return await res.json();
     } catch (err) {
-        return `Error creating driver: ${err}`;
+        return `Something went wrong creating driver.`;
     }
 
 };
