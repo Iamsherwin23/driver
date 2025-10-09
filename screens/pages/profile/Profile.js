@@ -32,7 +32,7 @@ export default function Profile() {
     const [modalVisible, setModalVisible] = useState(false);
     const [responseMsg, setResponseMsg] = useState('');
     const [responseStatus, setResponseStatus] = useState('');
-    const [imageSource, setImageSource] = useState('');
+    const [licensePicture, setLicensePicture] = useState(null);
 
     useEffect(() => {
         const initProfile = async () => {
@@ -52,7 +52,7 @@ export default function Profile() {
                 setContactNumber(response.profile.contact || '');
                 setLicense(response.profile.id_number || '');
                 setSelectedGender(response.profile.gender || null);
-                setImageSource(response.profile.id_picture);
+                setLicensePicture(response.profile.license_picture);
             }
             else {
                 setModalVisible(true)
@@ -80,7 +80,7 @@ export default function Profile() {
                 setContactNumber(response.profile.contact || '');
                 setLicense(response.profile.id_number || '');
                 setSelectedGender(response.profile.gender || null);
-                setImageSource(response.profile.id_picture);
+                setLicensePicture(response.profile.license_picture);
             }
             else {
                 setModalVisible(true)
@@ -147,17 +147,12 @@ export default function Profile() {
 
             <View style={{ flex: 1 }}>
                 <View style={profileStyles.profileHeader}>
-                    {/* <View style={{padding: 10}}>
-
-                        {imageSource &&
-                        <Image
-                        resizeMode="cover"
-                            source={{ uri: imageSource }}
-                            style={profileStyles.imageProfile}
-                            />
-                        }
-                    </View> */}
-                    <Ionicons name={'person-circle-outline'} size={120} color={Constants.COLORS.BLACK} />
+                    {/* <Ionicons name={'person-circle-outline'} size={120} color={Constants.COLORS.BLACK} /> */}
+                    <Image
+                        source={require('../../../assets/img/tricycle.png')} // put your image in assets folder
+                        style={{ margin: 10, marginLeft: 0, width: 80, height: 80, borderRadius: 50, borderWidth:2, borderColor: Constants.COLORS.RED,  transform: [{ scaleX: -1 }] }} // adjust size & spacing
+                        resizeMode="contain"
+                    />
                     <View style={{ justifyContent: 'center', flex: 1 }}>
                         <CustomText style={[profileStyles.textProfileBold]}>{fullname}</CustomText>
                         <CustomText style={[profileStyles.textProfile]}>{user}</CustomText>
@@ -193,10 +188,26 @@ export default function Profile() {
                                 <CustomText style={profileStyles.formLabel}>Contact Number</CustomText>
                                 <TextInput keyboardType="number-pad" editable={edit} style={[profileStyles.formInput, !contactNumber && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={contactNumber} onChangeText={setContactNumber} />
                             </View>
+                            {licensePicture &&
+                                <Image
+                                    // source={{ uri: licensePicture }}
+                                    source={{ uri: `${licensePicture}?t=${Date.now()}` }}
+                                    style={{
+                                        width: '100%',
+                                        marginTop: 10,
+                                        height: 150,
+                                        backgroundColor: Constants.COLORS.WHITE,
+                                        alignSelf: 'center',
+                                    }}
+                                    onError={(e) => console.log('Image load error:', e.nativeEvent.error)}
+                                />
+                            }
+                            
                             <View style={profileStyles.inputContainer1}>
                                 <CustomText style={profileStyles.formLabel}>Driver License</CustomText>
                                 <TextInput editable={edit} style={[profileStyles.formInput, !license && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={license} onChangeText={setLicense} />
                             </View>
+                            {/* <Text>{licensePicture}</Text> */}
                             <View style={profileStyles.inputContainer1}>
                                 <CustomText style={profileStyles.formLabel}>Gender</CustomText>
                                 <View style={profileStyles.radioGroup}>

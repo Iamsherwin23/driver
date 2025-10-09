@@ -26,7 +26,7 @@ export const fetchCurrentBookings = async () => {
             },
         });
         return await res.json();
-        
+
     } catch (err) {
         console.log('Error fetching bookings:', err);
         return `Something went wrong fetching bookings.`;
@@ -44,7 +44,7 @@ export const fetchMyBookings = async () => {
             },
         });
         return await res.json();
-        
+
     } catch (err) {
         console.log('Error fetching current booking.', err);
         return `Something went wrong fetching current bookings.`;
@@ -63,10 +63,10 @@ export const handleAcceptNow = async (bookid) => {
                 bookid
             }),
         });
-        console.log(res); 
+        console.log(res);
         return await res.json();
     } catch (err) {
-        console.log('Something went wrong accepting booking:', err); 
+        console.log('Something went wrong accepting booking:', err);
         return `Something went wrong accepting booking.`;
     }
 };
@@ -82,10 +82,10 @@ export const handleCancelNow = async (bookid) => {
                 bookid
             }),
         });
-        console.log(res); 
+        console.log(res);
         return await res.json();
     } catch (err) {
-        console.log('Something went wrong cancelling booking:', err); 
+        console.log('Something went wrong cancelling booking:', err);
         return `Something went wrong cancelling booking.`;
     }
 };
@@ -100,10 +100,10 @@ export const handleStartNow = async (bookid) => {
                 bookid
             }),
         });
-        console.log(res); 
+        console.log(res);
         return await res.json();
     } catch (err) {
-        console.log('Something went wrong starting booking:', err); 
+        console.log('Something went wrong starting booking:', err);
         return `Something went wrong starting booking.`;
     }
 };
@@ -119,10 +119,10 @@ export const handleFinishNow = async (bookid) => {
                 bookid
             }),
         });
-        console.log(res); 
+        console.log(res);
         return await res.json();
     } catch (err) {
-        console.log('Something went wrong compeleting booking:', err); 
+        console.log('Something went wrong compeleting booking:', err);
         return `Something went wrong cmpleting booking.`;
     }
 };
@@ -262,30 +262,99 @@ export const updateUserProfile = async (firstName, lastName, email, address, con
     }
 };
 
-export const createDriver = async (firstName, lastName, email, address, contactNumber, license, selectedGender, password) => {
+export const createDriver = async (
+    firstName,
+    lastName,
+    email,
+    address,
+    contactNumber,
+    license,
+    selectedGender,
+    password,
+    licenseImage // 👈 new param
+) => {
     try {
         const genderValue = selectedGender === "Male" ? "M" : selectedGender === "Female" ? "F" : null;
+
+        // 🔹 Build form data for multipart upload
+        const formData = new FormData();
+        formData.append('first_name', firstName);
+        formData.append('last_name', lastName);
+        formData.append('email', email);
+        formData.append('address', address);
+        formData.append('contact_number', contactNumber);
+        formData.append('id_number', license);
+        formData.append('gender', genderValue);
+        formData.append('password', password);
+
+        // 👇 Append the image file (required for license upload)
+        formData.append('license_picture', {
+            uri: licenseImage,
+            name: 'license_image.jpg',
+            type: 'image/jpeg',
+        });
+
         const res = await fetch(apiRoutes.createDriver, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json', // no Content-Type, let fetch set it automatically
+            },
+            body: formData,
+        });
+
+        return await res.json();
+    } catch (err) {
+        console.log('Error uploading driver:', err);
+        return { status: 500, message: 'Something went wrong creating driver.' };
+    }
+};
+
+export const sendEmailVerification = async (email) => {
+    try {
+        const res = await fetch(apiRoutes.sendEmail, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({
-                first_name: firstName,
-                last_name: lastName,
-                email,
-                address,
-                contact_number: contactNumber,
-                id_number: license,
-                gender: genderValue,
-                password: password,
-            }),
+            body: JSON.stringify({ email }),
         });
         return await res.json();
     } catch (err) {
-        return `Something went wrong creating driver.`;
+        console.log(err);
+        return { status: 500, message: 'Something went wrong sending email.' };
     }
+};
 
+export const sendOTPVerification = async (code, email) => {
+    try {
+        const res = await fetch(apiRoutes.sendOTP, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ code, email }),
+        });
+        return await res.json();
+    } catch (err) {
+        console.log(err);
+        return { status: 500, message: 'Something went wrong sending code.' };
+    }
+};
+
+export const setNewPassword = async (password, email) => {
+    try {
+        const res = await fetch(apiRoutes.setPassword, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ password, email }),
+        });
+        return await res.json();
+    } catch (err) {
+        console.log(err);
+        return { status: 500, message: 'Something went wrong setting password.' };
+    }
 };
 
 

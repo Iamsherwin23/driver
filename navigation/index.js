@@ -8,6 +8,7 @@ import CreateUserPage from '../screens/pages/createUser/CreateUser.js';
 import MainLayout from '../screens/MainLayout';
 import LoginPage from '../screens/loginPage/LoginPage';
 import { AuthContext } from '../context/AuthContext.js';
+import ForgotPassword from '../screens/loginPage/ForgotPassword.js';
 
 const StackNav = createNativeStackNavigator();
 
@@ -31,9 +32,16 @@ function Navigation() { // this is equal to browser router
                     isAuthenticated ?
                         null
                         :
-                        (<StackNav.Screen name='CreateUserPage' options={{ headerShown: false }}>
-                            {(props) => <CreateUserPage {...props} />}
-                        </StackNav.Screen>)
+                        (
+                            <>
+                                <StackNav.Screen name='CreateUserPage' options={{ headerShown: false }}>
+                                    {(props) => <CreateUserPage {...props} />}
+                                </StackNav.Screen>
+                                <StackNav.Screen name='ForgotPassword' options={{ headerShown: false }}>
+                                    {(props) => <ForgotPassword {...props} />}
+                                </StackNav.Screen>
+                            </>
+                        )
                 }
 
             </StackNav.Navigator>

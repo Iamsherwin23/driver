@@ -13,12 +13,14 @@ import { loginTest } from '../../services/service.js';
 import { CustomMessage } from '../../components/Message.js';
 import CustomLoadingBar from '../../components/CustomLoadingBar.js';
 import CustomLoading from '../../components/CustomLoading.js';
+import CustomMessageModal from '../../components/CustomMessageModal.js';
+
 
 export default function LoginPage({ navigation }) {
 
     // Variables
-    const [username, setUserName] = useState('');
-    const [password, setPassword] = useState('');
+    const [username, setUserName] = useState('driver@gmail.com');
+    const [password, setPassword] = useState('Sarco123!');
     const [data, setData] = useState(null);
 
     const [msg, setMsg] = useState(false);
@@ -28,40 +30,65 @@ export default function LoginPage({ navigation }) {
     const { setIsAuthenticated } = useContext(AuthContext);
     const access_level = 10;
 
+
+    const [modalVisible, setModalVisible] = useState(false);
+    const [responseMsg, setResponseMsg] = useState('');
+    const [responseStatus, setResponseStatus] = useState('');
+    const [show, setShow] = useState('eye');
+    const [showPass, setShowPass] = useState(true);
+
+    const handleShow = () => {
+        if (show == 'eye') {
+            setShow('eye-off');
+            setShowPass(false)
+        }
+        else {
+            setShow('eye');
+            setShowPass(true)
+        }
+
+    }
+
+
     // call api login
     const loginUser = async () => {
 
-        // if (username == '' || password == '') {
-        //     setMsg(true);
-        //     setTimeout(() => {
-        //         setMsg(false);
-        //     }, 2000);
-        //     setMessageColor(Constants.COLORS.YELLOW);
-        //     setData("Please don't leave any blanks");
-        // } else {
-        setIsLoading(true);
-        const apiResult = await loginTest('jenna@gmail.com', 'Sarco123!', access_level);
-        setIsLoading(false);
-        if (apiResult.status == 400) {
+        if (username == '' || password == '') {
             setMsg(true);
             setTimeout(() => {
                 setMsg(false);
             }, 2000);
-            setMessageColor(Constants.COLORS.RED);
-            setData(apiResult.message);
+            setMessageColor(Constants.COLORS.YELLOW);
+            setData("Please don't leave any blanks");
+        } else {
+            setIsLoading(true);
+            const apiResult = await loginTest(username, password, access_level);
+            setIsLoading(false);
+            if (apiResult.status == 400) {
+                setMsg(true);
+                setTimeout(() => {
+                    setMsg(false);
+                }, 2000);
+                setMessageColor(Constants.COLORS.RED);
+                setData(apiResult.message);
 
-        } else if (apiResult.status == 200) {
-            // setMessageColor(Constants.COLORS.GREEN);
-            // setMsg(true);
-            // setData(apiResult.message);
-            await AsyncStorage.setItem('token', apiResult.access_token);
-            await AsyncStorage.setItem('user', apiResult.user);
-            await AsyncStorage.setItem('fullname', apiResult.fullname);
-            await AsyncStorage.setItem('contact', apiResult.contact);
-            setIsAuthenticated(true); // this triggers page change
+            } else if (apiResult.status == 200) {
+                // setMessageColor(Constants.COLORS.GREEN);
+                // setMsg(true);
+                // setData(apiResult.message);
+                await AsyncStorage.setItem('token', apiResult.access_token);
+                await AsyncStorage.setItem('user', apiResult.user);
+                await AsyncStorage.setItem('fullname', apiResult.fullname);
+                await AsyncStorage.setItem('contact', apiResult.contact);
+                setIsAuthenticated(true); // this triggers page change
+            }
+            else {
+                setModalVisible(true)
+                setResponseMsg(apiResult.message)
+                setResponseStatus(500)
+            }
+
         }
-
-        // }
 
 
     }
@@ -77,8 +104,14 @@ export default function LoginPage({ navigation }) {
                     isLoading ? <CustomLoading /> : null
                 }
                 {/* Header */}
+                <CustomMessageModal
+                    visible={modalVisible}
+                    onClose={() => setModalVisible(false)}
+                    message={responseMsg}
+                    response={responseStatus}
+                />
                 <View style={loginStyle.header}>
-                    <View style={loginStyle.logoContainer}> 
+                    <View style={loginStyle.logoContainer}>
                         <CustomText style={loginStyle.label}>Hi!</CustomText>
                         <Image
                             source={require('../../assets/img/tricycle.png')} // put your image in assets folder
@@ -89,6 +122,7 @@ export default function LoginPage({ navigation }) {
 
                     <CustomText style={loginStyle.label}>Welcome to</CustomText>
                     <CustomText style={loginStyle.label2}>TRIKEFARE</CustomText>
+                    <CustomText style={loginStyle.driver}>(Rider App)</CustomText>
 
                 </View>
                 <View style={loginStyle.main}>
@@ -99,17 +133,20 @@ export default function LoginPage({ navigation }) {
 
                         <View style={loginStyle.inputContainer}>
                             <Ionicons name={'person'} size={20} color={Constants.COLORS.BLACK} style={loginStyle.icon} />
-                            <TextInput style={loginStyle.formInput} placeholder='Enter Username' placeholderTextColor={Constants.COLORS.BLACK}  onChangeText={setUserName} />
+                            <TextInput style={loginStyle.formInput} placeholder='Enter Username' placeholderTextColor={Constants.COLORS.BLACK} onChangeText={setUserName} />
                         </View>
 
 
                         <View style={loginStyle.inputContainer}>
                             <Ionicons name={'lock-closed'} size={20} color={Constants.COLORS.BLACK} style={loginStyle.icon} />
-                            <TextInput style={loginStyle.formInput} placeholder='Enter Password' placeholderTextColor={Constants.COLORS.BLACK}  secureTextEntry={true} onChangeText={setPassword} />
+                            <TextInput style={loginStyle.formInput} placeholder='Enter Password' placeholderTextColor={Constants.COLORS.BLACK} secureTextEntry={showPass} onChangeText={setPassword} />
+                            <TouchableOpacity onPress={handleShow}>
+                                <Ionicons name={show} size={20} color={Constants.COLORS.BLACK} style={loginStyle.icon} />
+                            </TouchableOpacity>
                         </View>
 
                         <View style={loginStyle.misc}>
-                            <TouchableOpacity>
+                            <TouchableOpacity onPress={() => navigation.navigate('ForgotPassword')}>
                                 <Text style={loginStyle.forgotPassword}>Forgot Password?</Text>
                             </TouchableOpacity>
                         </View>

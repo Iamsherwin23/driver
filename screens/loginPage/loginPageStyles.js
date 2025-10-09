@@ -34,6 +34,11 @@ const loginStyle = StyleSheet.create({
         marginTop: 10,
         fontFamily: 'Montserrat-Bold'
     },
+    driver: {
+        fontSize: Constants.SIZE.X_MEDIUM,
+        color: Constants.COLORS.DARK_RED,
+        fontFamily: 'Montserrat-Bold'
+    },
     // Form
     formContainer: {
         position: 'absolute',

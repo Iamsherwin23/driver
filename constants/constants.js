@@ -50,12 +50,10 @@ const Constants = {
 
     API_ROUTE: {
         // Local
-        // API_ENDPOINT: "http://10.0.2.2:8000",
-
-        API_ENDPOINT: "http://192.168.1.30:8000",
+        // API_ENDPOINT: "http://192.168.1.30:8000",
 
         // Production
-        // API_ENDPOINT: "https://trikefare.com/server/public"
+        API_ENDPOINT: "https://trikefare.com/server/public"
     }
 
 }

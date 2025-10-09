@@ -1,5 +1,5 @@
 // External imports
-import { View, TouchableOpacity, Text, Alert } from 'react-native';
+import { View, TouchableOpacity, Text, Alert, Image, ScrollView } from 'react-native';
 import React, { useState } from 'react';
 import { Ionicons } from '@expo/vector-icons';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -13,6 +13,7 @@ import { createDriver } from '../../../services/service';
 import CustomMessageModal from '../../../components/CustomMessageModal';
 import { isEmail, isValidPassword } from '../../../assets/General/Utils';
 import CustomLoading from '../../../components/CustomLoading';
+import * as ImagePicker from 'expo-image-picker';
 
 export default function CreateUserPage({ navigation }) {
     const [email, setEmail] = useState('');
@@ -24,6 +25,7 @@ export default function CreateUserPage({ navigation }) {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [selectedGender, setSelectedGender] = useState(null);
+    const [licenseImage, setLicenseImage] = useState(null);
 
     const [modalVisible, setModalVisible] = useState(false);
     const [responseMsg, setResponseMsg] = useState('');
@@ -31,7 +33,7 @@ export default function CreateUserPage({ navigation }) {
     const [loading, setLoading] = useState(false);
 
     const handleSignup = async () => {
-        if (!email || !firstName || !lastName || !mobileNumber || !license || !address || !selectedGender || !password || !confirmPassword) {
+        if (!email || !firstName || !lastName || !mobileNumber || !license || !address || !selectedGender || !password || !confirmPassword || !licenseImage) {
             setModalVisible(true)
             setResponseMsg('All fields are required.')
             setResponseStatus(500)
@@ -47,7 +49,7 @@ export default function CreateUserPage({ navigation }) {
 
         if (!isValidPassword(password)) {
             setModalVisible(true)
-             setResponseMsg(
+            setResponseMsg(
                 'Password must be 8-24 characters long and include at least one uppercase letter and one number.'
             );
             setResponseStatus(500)
@@ -62,7 +64,7 @@ export default function CreateUserPage({ navigation }) {
         setLoading(true);
 
         try {
-            const response = await createDriver(firstName, lastName, email, address, mobileNumber, license, selectedGender, password);
+            const response = await createDriver(firstName, lastName, email, address, mobileNumber, license, selectedGender, password, licenseImage);
             if (response.status == 200) {
                 setModalVisible(true)
                 setResponseStatus(response.status);
@@ -75,6 +77,7 @@ export default function CreateUserPage({ navigation }) {
                 setAddress('');
                 setPassword('');
                 setConfirmPassword('');
+                setLicenseImage(null);
             }
             else if (response.status == 500 || response.status == 404) {
                 setModalVisible(true)
@@ -93,6 +96,25 @@ export default function CreateUserPage({ navigation }) {
         setLoading(false);
 
     };
+
+    const pickLicenseImage = async () => {
+        const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (permission.status !== 'granted') {
+            Alert.alert('Permission required', 'We need access to your photos to upload your license.');
+            return;
+        }
+
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            quality: 0.7,
+        });
+
+        if (!result.canceled) {
+            setLicenseImage(result.assets[0].uri);
+        }
+    };
+
 
     return (
         <View style={createUserStyle.mainContainer}>
@@ -123,137 +145,158 @@ export default function CreateUserPage({ navigation }) {
                 enableOnAndroid={true}
                 keyboardShouldPersistTaps="handled"
             > */}
-                <View style={createUserStyle.form}>
-                    {/* Email */}
-                    <View style={{ marginTop: 10 }}>
-                        <CustomInput
-                            fontFamily={'Montserrat'}
-                            color={Constants.COLORS.WHITE}
-                            isSecure={false}
-                            value={email}
-                            inputValue={setEmail}
-                            placeholderValue={'Email'}
-                            flexValue={0}
-                            keyboardTypeValue="email-address"
-                            autoCapitalize="none"
-                        />
-                    </View>
+            <View style={createUserStyle.form}>
+                <ScrollView>
 
-                    {/* First & Last Name */}
-                    <View style={createUserStyle.form_Name}>
-                        <CustomInput
-                            fontFamily={'Montserrat'}
-                            color={Constants.COLORS.WHITE}
-                            isSecure={false}
-                            value={firstName}
-                            inputValue={setFirstName}
-                            placeholderValue={'First Name'}
-                            flexValue={1}
-                        />
-                        <CustomInput
-                            fontFamily={'Montserrat'}
-                            color={Constants.COLORS.WHITE}
-                            isSecure={false}
-                            value={lastName}
-                            inputValue={setLastName}
-                            placeholderValue={'Last Name'}
-                            flexValue={1}
-                        />
-                    </View>
+                {/* Email */}
+                <View style={{ marginTop: 10 }}>
+                    <CustomInput
+                        fontFamily={'Montserrat'}
+                        color={Constants.COLORS.WHITE}
+                        isSecure={false}
+                        value={email}
+                        inputValue={setEmail}
+                        placeholderValue={'Email'}
+                        flexValue={0}
+                        keyboardTypeValue="email-address"
+                        autoCapitalize="none"
+                    />
+                </View>
 
-                    {/* Mobile Number */}
-                    <View style={{ marginTop: 10 }}>
-                        <CustomInput
-                            fontFamily={'Montserrat'}
-                            color={Constants.COLORS.WHITE}
-                            isSecure={false}
-                            value={mobileNumber}
-                            inputValue={setMobileNumber}
-                            placeholderValue={'Mobile Number'}
-                            flexValue={0}
-                            keyboardTypeValue="numeric"
-                        />
-                    </View>
+                {/* First & Last Name */}
+                <View style={createUserStyle.form_Name}>
+                    <CustomInput
+                        fontFamily={'Montserrat'}
+                        color={Constants.COLORS.WHITE}
+                        isSecure={false}
+                        value={firstName}
+                        inputValue={setFirstName}
+                        placeholderValue={'First Name'}
+                        flexValue={1}
+                    />
+                    <CustomInput
+                        fontFamily={'Montserrat'}
+                        color={Constants.COLORS.WHITE}
+                        isSecure={false}
+                        value={lastName}
+                        inputValue={setLastName}
+                        placeholderValue={'Last Name'}
+                        flexValue={1}
+                    />
+                </View>
 
-                    {/* Driver License */}
-                    <View style={{ marginTop: 10 }}>
-                        <CustomInput
-                            fontFamily={'Montserrat'}
-                            color={Constants.COLORS.WHITE}
-                            isSecure={false}
-                            value={license}
-                            inputValue={setLicense}
-                            placeholderValue={'Driver License (VALID ID)'}
-                            flexValue={0}
-                        />
-                    </View>
+                {/* Mobile Number */}
+                <View style={{ marginTop: 10 }}>
+                    <CustomInput
+                        fontFamily={'Montserrat'}
+                        color={Constants.COLORS.WHITE}
+                        isSecure={false}
+                        value={mobileNumber}
+                        inputValue={setMobileNumber}
+                        placeholderValue={'Mobile Number'}
+                        flexValue={0}
+                        keyboardTypeValue="numeric"
+                    />
+                </View>
 
-                    {/* Address */}
-                    <View style={{ marginTop: 10 }}>
-                        <CustomInput
-                            fontFamily={'Montserrat'}
-                            color={Constants.COLORS.WHITE}
-                            isSecure={false}
-                            value={address}
-                            inputValue={setAddress}
-                            placeholderValue={'Complete Address'}
-                            flexValue={0}
+                {/* Driver License Picture */}
+                <View style={{ alignItems: 'center' }}>
+                    {licenseImage ? (
+                        <Image
+                            source={{ uri: licenseImage }}
+                            style={{ width: '100%', height: 120}}
                         />
-                    </View>
+                    ) : (
+                        <Ionicons name="image-outline" size={50} color={Constants.COLORS.RED} />
+                    )}
+                    <TouchableOpacity onPress={pickLicenseImage}>
+                        <Text style={{ color: Constants.COLORS.RED, fontWeight:'bold' }}>
+                            {licenseImage ? 'Change License Image' : 'Upload Driver License'}
+                        </Text>
+                    </TouchableOpacity>
+                </View>
 
-                    {/* Gender */}
-                    <View style={{ marginBottom: Constants.SIZE.REGULAR, marginTop: 10 }}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            {['Male', 'Female'].map((gender) => (
-                                <TouchableOpacity
-                                    key={gender}
-                                    onPress={() => setSelectedGender(gender)}
-                                    style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
-                                >
-                                    <Ionicons
-                                        name={selectedGender === gender ? 'radio-button-on' : 'radio-button-off'}
-                                        size={25}
-                                        color={Constants.COLORS.FADED_BLACK}
-                                    />
-                                    <Text style={{ color: Constants.COLORS.FADED_BLACK, marginLeft: 5, fontSize: Constants.SIZE.REGULAR }}>
-                                        {gender}
-                                    </Text>
-                                </TouchableOpacity>
-                            ))}
-                        </View>
-                    </View>
 
-                    {/* Passwords */}
-                    <View style={{ marginTop: 10 }}>
-                        <CustomInput
-                            fontFamily={'Montserrat'}
-                            color={Constants.COLORS.WHITE}
-                            isSecure={true}
-                            value={password}
-                            inputValue={setPassword}
-                            placeholderValue={'Enter Password'}
-                            flexValue={0}
-                        />
-                    </View>
-                    <View style={{ marginTop: 10 }}>
-                        <CustomInput
-                            fontFamily={'Montserrat'}
-                            color={Constants.COLORS.WHITE}
-                            isSecure={true}
-                            value={confirmPassword}
-                            inputValue={setConfirmPassword}
-                            placeholderValue={'Re-enter Password'}
-                            flexValue={0}
-                        />
-                    </View>
+                {/* Driver License */}
+                <View style={{ marginTop: 10 }}>
+                    <CustomInput
+                        fontFamily={'Montserrat'}
+                        color={Constants.COLORS.WHITE}
+                        isSecure={false}
+                        value={license}
+                        inputValue={setLicense}
+                        placeholderValue={'License Number'}
+                        flexValue={0}
+                    />
+                </View>
 
-                    {/* Footer */}
-                    <View style={createUserStyle.footer}>
-                        <TouchableOpacity onPress={handleSignup}>
-                            <Text style={createUserStyle.signupBtn}>Signup</Text>
-                        </TouchableOpacity>
+                {/* Address */}
+                <View style={{ marginTop: 10 }}>
+                    <CustomInput
+                        fontFamily={'Montserrat'}
+                        color={Constants.COLORS.WHITE}
+                        isSecure={false}
+                        value={address}
+                        inputValue={setAddress}
+                        placeholderValue={'Complete Address'}
+                        flexValue={0}
+                    />
+                </View>
+
+                {/* Gender */}
+                <View style={{ marginBottom: Constants.SIZE.REGULAR, marginTop: 10 }}>
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                        {['Male', 'Female'].map((gender) => (
+                            <TouchableOpacity
+                                key={gender}
+                                onPress={() => setSelectedGender(gender)}
+                                style={{ flexDirection: 'row', alignItems: 'center', marginRight: 20 }}
+                            >
+                                <Ionicons
+                                    name={selectedGender === gender ? 'radio-button-on' : 'radio-button-off'}
+                                    size={25}
+                                    color={Constants.COLORS.FADED_BLACK}
+                                />
+                                <Text style={{ color: Constants.COLORS.FADED_BLACK, marginLeft: 5, fontSize: Constants.SIZE.REGULAR }}>
+                                    {gender}
+                                </Text>
+                            </TouchableOpacity>
+                        ))}
                     </View>
                 </View>
+
+                {/* Passwords */}
+                <View style={{ marginTop: 10 }}>
+                    <CustomInput
+                        fontFamily={'Montserrat'}
+                        color={Constants.COLORS.WHITE}
+                        isSecure={true}
+                        value={password}
+                        inputValue={setPassword}
+                        placeholderValue={'Enter Password'}
+                        flexValue={0}
+                    />
+                </View>
+                <View style={{ marginTop: 10 }}>
+                    <CustomInput
+                        fontFamily={'Montserrat'}
+                        color={Constants.COLORS.WHITE}
+                        isSecure={true}
+                        value={confirmPassword}
+                        inputValue={setConfirmPassword}
+                        placeholderValue={'Re-enter Password'}
+                        flexValue={0}
+                    />
+                </View>
+                </ScrollView>
+
+                {/* Footer */}
+                <View style={createUserStyle.footer}>
+                    <TouchableOpacity onPress={handleSignup}>
+                        <Text style={createUserStyle.signupBtn}>Signup</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
             {/* </KeyboardAwareScrollView> */}
         </View>
     );
