@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, Image } from 'react-native';
 import { Constants } from '../../../constants/constants';
 import { globalStyle } from '../../../utils/styles';
 import CustomText from '../../../components/CustomText';
@@ -46,6 +46,8 @@ export default function History() {
             viewData.fare = data.fare
             viewData.ride = data.category
             viewData.bookid = data.bookid
+            viewData.passenger_contact = data.passenger_contact
+            viewData.id_picture = data.id_picture
         }
     }
 
@@ -88,10 +90,25 @@ export default function History() {
             {/* Modal Content */}
             {
                 isModal ? <CustomModal pressFunc={() => openModal(false, {})}>
-                    <View style={style.modalContainer}>
+                    <ScrollView style={style.modalContainer}>
                         {/* modal top bar */}
                         <View style={style.modalTopBar}>
-                            <Ionicons name={'person-circle'} size={124} color={Constants.COLORS.BLACK} />
+                            {/* <Ionicons name={'person-circle'} size={124} color={Constants.COLORS.BLACK} /> */}
+                            <Image
+                                source={
+                                    viewData.id_picture
+                                        ? { uri: `${Constants.API_ROUTE.API_ENDPOINT}/${viewData.id_picture}?t=${Date.now()}` }
+                                        : require('../../../assets/img/tricycle.png')
+                                }
+                                style={{
+                                    margin: 10,
+                                    width: 80,
+                                    height: 80,
+                                    borderRadius: 50,
+                                    borderWidth: 2,
+                                    borderColor: Constants.COLORS.RED
+                                }}
+                            />
                             <View style={{ marginLeft: Constants.MARGIN.SMALL }}>
                                 <View style={{ flexDirection: 'row' }}>
                                     <Ionicons name={'star'} size={30} color={Constants.COLORS.YELLOW} />
@@ -128,11 +145,14 @@ export default function History() {
                                 Fare: <CustomText style={[style.detailsText]}>{viewData.fare}</CustomText>
                             </CustomText>
                             <CustomText style={style.text}>
+                                Contact: <CustomText style={[style.detailsText]}>{viewData.passenger_contact}</CustomText>
+                            </CustomText>
+                            <CustomText style={style.text}>
                                 Ride: <CustomText style={[style.detailsText]}>{viewData.ride}</CustomText>
                             </CustomText>
                         </View>
 
-                    </View>
+                    </ScrollView>
                 </CustomModal> : null
             }
         </View>
@@ -145,7 +165,7 @@ const style = StyleSheet.create({
         overflow: 'scroll'
     },
     text: {
-        fontFamily: 'Montserrat'
+        fontFamily: 'Montserrat',
     },
     textHeader: {
         fontFamily: 'Montserrat-Bold',

@@ -231,11 +231,11 @@ export default function Profile() {
                         <View style={profileStyles.form}>
                             <View style={profileStyles.inputContainer1}>
                                 <CustomText style={profileStyles.formLabel}>First Name</CustomText>
-                                <TextInput editable={edit} style={[profileStyles.formInput, !firstName && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={firstName} onChangeText={setFirstName} />
+                                <TextInput editable={edit} style={[profileStyles.formInput, !firstName && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={firstName.toLocaleUpperCase()} onChangeText={setFirstName} />
                                 <CustomText style={profileStyles.formLabel}>Middle Name</CustomText>
-                                <TextInput editable={edit} style={[profileStyles.formInput, !middleName && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={middleName} onChangeText={setMiddleName} />
+                                <TextInput editable={edit} style={[profileStyles.formInput, !middleName && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={middleName.toLocaleUpperCase()} onChangeText={setMiddleName} />
                                 <CustomText style={profileStyles.formLabel}>Last Name</CustomText>
-                                <TextInput editable={edit} style={[profileStyles.formInput, !lastName && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={lastName} onChangeText={setLastName} />
+                                <TextInput editable={edit} style={[profileStyles.formInput, !lastName && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={lastName.toLocaleUpperCase()} onChangeText={setLastName} />
                             </View>
                             <View style={profileStyles.inputContainer1}>
                                 <CustomText style={profileStyles.formLabel}>Contact Number</CustomText>

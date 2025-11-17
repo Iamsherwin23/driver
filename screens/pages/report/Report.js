@@ -108,7 +108,7 @@ export default function Report() {
                                 value={selectedBookingId}
                                 placeholder={{ label: 'Select unreported booking...', value: null }}
                                 items={data.map((item) => ({
-                                    label: `BOOK ID: ${item.bookid} - ${item.passenger_name}`,
+                                    label: `ID: ${item.bookid} - ${item.passenger_name} (${item.contact})`,
                                     value: item.bookid,
                                 }))}
                                 style={{

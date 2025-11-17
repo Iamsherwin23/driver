@@ -20,39 +20,34 @@ const CustomCard = ({ details, pressFunc }) => {
                 <Ionicons name={'person-circle'} size={64} color={Constants.COLORS.BLACK} />
             </View> */}
 
-            <View style={style.details}>
+            <TouchableOpacity onPress={pressFunc}>
+                <View style={style.details}>
+                    {/* Date */}
+                    <View style={[style.details, { flexDirection: 'row' }]}>
+                        <CustomText style={[style.messageLabel, { color: Constants.COLORS.RED }]}>Date: </CustomText>
+                        <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.date_booked} {details.time_booked}</CustomText>
+                    </View>
 
+                    {/* Name */}
+                    <View style={[{ flexDirection: 'row' }]}>
+                        <CustomText style={[style.messageLabel, { color: Constants.COLORS.BLACK }]}>Passenger: </CustomText>
+                        <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.passenger_name}</CustomText>
+                    </View>
 
-                {/* Date */}
-                <View style={[style.details, { flexDirection: 'row' }]}>
-                    <CustomText style={[style.messageLabel, { color: Constants.COLORS.RED }]}>Date: </CustomText>
-                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.date_booked} {details.time_booked}</CustomText>
+                    {/* Pick Up Loc */}
+                    <View style={[style.details, { flexDirection: 'row' }]}>
+                        <CustomText style={[style.messageLabel, { color: Constants.COLORS.BLACK }]}>Pickup Location: </CustomText>
+                        <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.location_from}</CustomText>
+                    </View>
+
+                    {/* Drop off Loc */}
+                    <View style={[style.details, { flexDirection: 'row' }]}>
+                        <CustomText style={[style.messageLabel, { color: Constants.COLORS.BLACK }]}>Drop-off Location: </CustomText>
+                        <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.location_to}</CustomText>
+                    </View>
+
                 </View>
-
-                {/* Name */}
-                <View style={[{ flexDirection: 'row' }]}>
-                    <CustomText style={[style.messageLabel, { color: Constants.COLORS.BLACK }]}>Passenger: </CustomText>
-                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.passenger_name}</CustomText>
-                </View>
-
-                {/* Pick Up Loc */}
-                <View style={[style.details, { flexDirection: 'row' }]}>
-                    <CustomText style={[style.messageLabel, { color: Constants.COLORS.BLACK }]}>Pickup Location: </CustomText>
-                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.location_from}</CustomText>
-                </View>
-
-                {/* Drop off Loc */}
-                <View style={[style.details, { flexDirection: 'row' }]}>
-                    <CustomText style={[style.messageLabel, { color: Constants.COLORS.BLACK }]}>Drop-off Location: </CustomText>
-                    <CustomText style={[style.messageValue, { color: Constants.COLORS.BLACK }]}>{details.location_to}</CustomText>
-                </View>
-
-            </View>
-            <View style={style.more}>
-                <TouchableOpacity onPress={pressFunc}>
-                    <Ionicons name={'ellipsis-horizontal'} size={24} color={Constants.COLORS.BLACK} />
-                </TouchableOpacity>
-            </View>
+            </TouchableOpacity>
         </View>
     )
 }
@@ -72,9 +67,11 @@ const style = StyleSheet.create({
     },
     messageValue: {
         fontFamily: 'Montserrat',
+        flexWrap: 'wrap',
         fontSize: Constants.SIZE.LABELS
     },
     details: {
+        flexWrap: 'wrap',
     },
     more: {
         flex: 1,
