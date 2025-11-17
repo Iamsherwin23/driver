@@ -18,6 +18,7 @@ const apiRoutes = {
     getHistory: mainRoute.concat("/api/driver/getHistory"),
     getProfile: mainRoute.concat("/api/driver/getProfile"),
     updateProfile: mainRoute.concat("/api/driver/updateProfile"),
+    updateIdPicture: mainRoute.concat("/api/driver/updateIdPicture"),
     getBookings: mainRoute.concat("/api/driver/getBookings"),
     sumbitReport: mainRoute.concat("/api/driver/sumbitReport"),
     getAnnouncement: mainRoute.concat("/api/driver/getAnnouncement"),

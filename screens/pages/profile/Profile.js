@@ -7,16 +7,19 @@ import CustomText from '../../../components/CustomText';
 import { Ionicons } from '@expo/vector-icons';
 import { profileStyles } from './profileStyles';
 import { Button } from '@react-navigation/elements';
-import { fetchUserProfile, updateUserProfile } from '../../../services/service';
+import { fetchUserProfile, updateUserProfile, uploadIdPicture } from '../../../services/service';
 import CustomLoading from '../../../components/CustomLoading';
 import CustomMessageModal from '../../../components/CustomMessageModal';
 
 import AnnouncementModal from '../announcement/Annnouncement';
 import { globalStyle } from '../../../utils/styles.js';
+import * as ImagePicker from 'expo-image-picker';
+import axios from 'axios';
 
 export default function Profile() {
     const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
     const [announceVisible, setAnnounceVisible] = useState(false);
+    const [idPicture, setIdPicture] = useState(null);
     const [user, setUser] = useState('');
     const [fullname, setFullname] = useState('');
     const [contact, setContact] = useState('');
@@ -57,6 +60,7 @@ export default function Profile() {
                 setLicense(response.profile.id_number || '');
                 setSelectedGender(response.profile.gender || null);
                 setLicensePicture(response.profile.license_picture);
+                setIdPicture(response.profile.id_picture);
             }
             else {
                 setModalVisible(true)
@@ -133,6 +137,35 @@ export default function Profile() {
         }
     };
 
+    const handleSelectIdPicture = async () => {
+        const permission = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (!permission.granted) {
+            alert("Permission required to select image.");
+            return;
+        }
+
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            allowsEditing: true,
+            aspect: [1, 1],
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            const response = await uploadIdPicture(result.assets[0]);
+
+            if (response.image_url) {
+                setIdPicture(response.image_url);   // ← 🔥 FIXED
+            } else {
+                console.log("Upload failed:", response);
+            }
+        }
+    };
+
+
+
+
+
 
     return (
         <View style={[{ backgroundColor: Constants.COLORS.GRAYISH_WHITE }, profileStyles.view]}>
@@ -154,11 +187,28 @@ export default function Profile() {
             <View style={{ flex: 1 }}>
                 <View style={profileStyles.profileHeader}>
                     {/* <Ionicons name={'person-circle-outline'} size={120} color={Constants.COLORS.BLACK} /> */}
-                    <Image
+                    {/* <Image
                         source={require('../../../assets/img/tricycle.png')} // put your image in assets folder
                         style={{ margin: 10, marginLeft: 0, width: 80, height: 80, borderRadius: 50, borderWidth: 2, borderColor: Constants.COLORS.RED, transform: [{ scaleX: -1 }] }} // adjust size & spacing
                         resizeMode="contain"
-                    />
+                    /> */}
+                    <TouchableOpacity onPress={handleSelectIdPicture}>
+                        <Image
+                            source={
+                                idPicture
+                                    ? { uri: `${idPicture}?t=${Date.now()}` }
+                                    : require('../../../assets/img/tricycle.png')
+                            }
+                            style={{
+                                margin: 10,
+                                width: 80,
+                                height: 80,
+                                borderRadius: 50,
+                                borderWidth: 2,
+                                borderColor: Constants.COLORS.RED
+                            }}
+                        />
+                    </TouchableOpacity>
                     <View style={{ justifyContent: 'center', flex: 1 }}>
                         <CustomText style={[profileStyles.textProfileBold]}>{fullname}</CustomText>
                         <CustomText style={[profileStyles.textProfile]}>{user}</CustomText>

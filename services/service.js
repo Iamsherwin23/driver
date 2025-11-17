@@ -233,6 +233,62 @@ export const fetchUserProfile = async () => {
     }
 };
 
+export const uploadIdPicture = async (imageFile) => {
+    try {
+        const token = await AsyncStorage.getItem('token');
+
+        console.log("ImageFile received:", imageFile);
+
+        const formData = new FormData();
+        formData.append("id_picture", {
+            uri: imageFile?.uri,
+            name: "id_" + Date.now() + ".jpg",
+            type: "image/jpeg",
+        });
+
+        console.log("Uploading to:", apiRoutes.updateIdPicture);
+
+        const res = await fetch(apiRoutes.updateIdPicture, {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${token}`,
+                // Do NOT set Content-Type for multipart in React Native
+            },
+            body: formData
+        });
+
+        console.log("📥 Raw response status:", res.status);
+
+        // If server returned 500/404/etc
+        if (!res.ok) {
+            const text = await res.text();
+            console.log("Server responded with error:", text);
+            return { error: true, status: res.status, message: text };
+        }
+
+        // Try to parse JSON
+        let json;
+        try {
+            json = await res.json();
+        } catch (jsonError) {
+            console.log("JSON Parse Error:", jsonError);
+            const text = await res.text();
+            console.log("📄 Raw text response:", text);
+            return { error: true, message: "Invalid JSON", raw: text };
+        }
+
+        console.log("Upload success:", json);
+        return json;
+
+    } catch (err) {
+        console.log("CATCH ERROR:", err);
+        return { error: true, message: err.message };
+    }
+};
+
+
+
+
 export const updateUserProfile = async (firstName, middleName, lastName, plateNumber, email, address, contactNumber, license, selectedGender) => {
     try {
         const token = await AsyncStorage.getItem('token');
