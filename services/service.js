@@ -233,7 +233,7 @@ export const fetchUserProfile = async () => {
     }
 };
 
-export const updateUserProfile = async (firstName, lastName, email, address, contactNumber, license, selectedGender) => {
+export const updateUserProfile = async (firstName, middleName, lastName, plateNumber, email, address, contactNumber, license, selectedGender) => {
     try {
         const token = await AsyncStorage.getItem('token');
 
@@ -245,7 +245,9 @@ export const updateUserProfile = async (firstName, lastName, email, address, con
             },
             body: JSON.stringify({
                 first_name: firstName,
+                middle_name: middleName,
                 last_name: lastName,
+                plate_number: plateNumber,
                 contact: contactNumber,
                 email,
                 address,
@@ -264,6 +266,7 @@ export const updateUserProfile = async (firstName, lastName, email, address, con
 
 export const createDriver = async (
     firstName,
+    middleName,
     lastName,
     email,
     address,
@@ -279,6 +282,7 @@ export const createDriver = async (
         // 🔹 Build form data for multipart upload
         const formData = new FormData();
         formData.append('first_name', firstName);
+        formData.append('middle_name', middleName);
         formData.append('last_name', lastName);
         formData.append('email', email);
         formData.append('address', address);

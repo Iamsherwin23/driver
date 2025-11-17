@@ -19,8 +19,8 @@ import CustomMessageModal from '../../components/CustomMessageModal.js';
 export default function LoginPage({ navigation }) {
 
     // Variables
-    const [username, setUserName] = useState('driver@gmail.com');
-    const [password, setPassword] = useState('Sarco123!');
+    const [username, setUserName] = useState('');
+    const [password, setPassword] = useState('');
     const [data, setData] = useState(null);
 
     const [msg, setMsg] = useState(false);

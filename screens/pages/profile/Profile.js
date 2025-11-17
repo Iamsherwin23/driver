@@ -22,7 +22,9 @@ export default function Profile() {
     const [contact, setContact] = useState('');
     const [selectedGender, setSelectedGender] = useState(null);
     const [firstName, setFirstName] = useState('');
+    const [middleName, setMiddleName] = useState('');
     const [lastName, setLastName] = useState('');
+    const [plateNumber, setPlateNumber] = useState('');
     const [email, setEmail] = useState('');
     const [address, setAddress] = useState('');
     const [contactNumber, setContactNumber] = useState('');
@@ -46,7 +48,9 @@ export default function Profile() {
                 setFullname(response.profile.fullname);
                 setContact(response.profile.contact);
                 setFirstName(response.profile.first_name || '');
+                setMiddleName(response.profile.middle_name || '');
                 setLastName(response.profile.last_name || '');
+                setPlateNumber(response.profile.plate_number || '');
                 setEmail(response.profile.email || '');
                 setAddress(response.profile.address || '');
                 setContactNumber(response.profile.contact || '');
@@ -74,7 +78,9 @@ export default function Profile() {
                 setFullname(response.profile.fullname);
                 setContact(response.profile.contact);
                 setFirstName(response.profile.first_name || '');
+                setMiddleName(response.profile.middle_name || '');
                 setLastName(response.profile.last_name || '');
+                setPlateNumber(response.profile.plate_number || '');
                 setEmail(response.profile.email || '');
                 setAddress(response.profile.address || '');
                 setContactNumber(response.profile.contact || '');
@@ -102,7 +108,7 @@ export default function Profile() {
     const handleSave = async () => {
         if (firstName && lastName && email && address && contactNumber && license) {
             setLoading(true);
-            const response = await updateUserProfile(firstName, lastName, email, address, contactNumber, license, selectedGender);
+            const response = await updateUserProfile(firstName, middleName, lastName, plateNumber, email, address, contactNumber, license, selectedGender);
 
             if (response.status == 200) {
                 setUser(response.profile.username);
@@ -150,7 +156,7 @@ export default function Profile() {
                     {/* <Ionicons name={'person-circle-outline'} size={120} color={Constants.COLORS.BLACK} /> */}
                     <Image
                         source={require('../../../assets/img/tricycle.png')} // put your image in assets folder
-                        style={{ margin: 10, marginLeft: 0, width: 80, height: 80, borderRadius: 50, borderWidth:2, borderColor: Constants.COLORS.RED,  transform: [{ scaleX: -1 }] }} // adjust size & spacing
+                        style={{ margin: 10, marginLeft: 0, width: 80, height: 80, borderRadius: 50, borderWidth: 2, borderColor: Constants.COLORS.RED, transform: [{ scaleX: -1 }] }} // adjust size & spacing
                         resizeMode="contain"
                     />
                     <View style={{ justifyContent: 'center', flex: 1 }}>
@@ -173,16 +179,13 @@ export default function Profile() {
                 <View style={profileStyles.main}>
                     <ScrollView>
                         <View style={profileStyles.form}>
-                            <View style={profileStyles.nameContainer}>
-                                <View style={profileStyles.inputContainer}>
-                                    <CustomText style={profileStyles.formLabel}>First Name</CustomText>
-                                    {/* <CustomText style={profileStyles.formLabel}>{imageSource}</CustomText> */}
-                                    <TextInput editable={edit} style={[profileStyles.formInput, !firstName && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={firstName} onChangeText={setFirstName} />
-                                </View>
-                                <View style={profileStyles.inputContainer}>
-                                    <CustomText style={profileStyles.formLabel}>Last Name</CustomText>
-                                    <TextInput editable={edit} style={[profileStyles.formInput, !lastName && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={lastName} onChangeText={setLastName} />
-                                </View>
+                            <View style={profileStyles.inputContainer1}>
+                                <CustomText style={profileStyles.formLabel}>First Name</CustomText>
+                                <TextInput editable={edit} style={[profileStyles.formInput, !firstName && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={firstName} onChangeText={setFirstName} />
+                                <CustomText style={profileStyles.formLabel}>Middle Name</CustomText>
+                                <TextInput editable={edit} style={[profileStyles.formInput, !middleName && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={middleName} onChangeText={setMiddleName} />
+                                <CustomText style={profileStyles.formLabel}>Last Name</CustomText>
+                                <TextInput editable={edit} style={[profileStyles.formInput, !lastName && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={lastName} onChangeText={setLastName} />
                             </View>
                             <View style={profileStyles.inputContainer1}>
                                 <CustomText style={profileStyles.formLabel}>Contact Number</CustomText>
@@ -202,12 +205,13 @@ export default function Profile() {
                                     onError={(e) => console.log('Image load error:', e.nativeEvent.error)}
                                 />
                             }
-                            
+
                             <View style={profileStyles.inputContainer1}>
                                 <CustomText style={profileStyles.formLabel}>Driver License</CustomText>
                                 <TextInput editable={edit} style={[profileStyles.formInput, !license && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={license} onChangeText={setLicense} />
+                                <CustomText style={profileStyles.formLabel}>Plate Number</CustomText>
+                                <TextInput editable={edit} style={[profileStyles.formInput, !plateNumber && edit && { borderWidth: 2, borderColor: Constants.COLORS.RED }]} value={plateNumber} onChangeText={setPlateNumber} />
                             </View>
-                            {/* <Text>{licensePicture}</Text> */}
                             <View style={profileStyles.inputContainer1}>
                                 <CustomText style={profileStyles.formLabel}>Gender</CustomText>
                                 <View style={profileStyles.radioGroup}>
