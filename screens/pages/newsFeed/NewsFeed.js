@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, ScrollView, RefreshControl, ImageBackground } from 'react-native';
 import { Constants } from '../../../constants/constants';
 import { globalStyle } from '../../../utils/styles';
 import CustomText from '../../../components/CustomText';
@@ -46,7 +46,19 @@ export default function NewsFeed() {
     };
 
     return (
-        <View style={[{ backgroundColor: Constants.COLORS.GRAYISH_WHITE, position: 'relative' }, globalStyle.container]}>
+        <ImageBackground
+            source={require('../../../assets/img/LTO.png')}
+            style={[globalStyle.container, { flex: 1 }]}
+            imageStyle={{
+                opacity: 0.15,   // 🔥 makes it transparent
+                resizeMode: 'contain',
+                position: 'absolute',
+                top: 40,
+                alignSelf: 'center',
+                width: "100%",
+                height: "100%",
+            }}
+        >
             {loading && <CustomLoading />}
             {/* Header */}
             <View style={globalStyle.headerContainer}>
@@ -107,8 +119,6 @@ export default function NewsFeed() {
                     ))}
                 </View>
             )}
-
-
             {/* Main Content */}
             <ScrollView
                 style={style.main}
@@ -125,7 +135,7 @@ export default function NewsFeed() {
                 }
             </ScrollView>
 
-        </View>
+        </ImageBackground>
     )
 }
 

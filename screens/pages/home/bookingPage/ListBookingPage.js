@@ -21,9 +21,10 @@ export function ListBookingPage({ navigation, data, nodata }) {
                         key={data.bookid}
                     >
                         <View style={style.header}>
-                            <Text style={style.headerText}>
-                                ({data.distance ? data.distance : '0'} km) Pick Up Now
-                            </Text>
+                            <View style={style.headerText}>
+                                <Text style={style.headerText}>Pick Up Now</Text>
+                                <Text style={style.headerText}>({data.distance ? data.distance : '0'} km) </Text>
+                            </View>
                             <View style={style.headerText1}>
                                 <Text style={style.headerText2}>
 
@@ -114,12 +115,12 @@ const style = StyleSheet.create({
         justifyContent: 'space-between',
     },
     headerText: {
-        fontSize: Constants.SIZE.X_REGULAR,
+        fontSize: Constants.SIZE.REGULAR,
         color: Constants.COLORS.WHITE,
         fontWeight: 'bold'
     },
     headerText1: {
-        fontSize: Constants.SIZE.LABELS,
+        fontSize: Constants.SIZE.SMALL,
         paddingLeft: Constants.PADDING.SMALL,
     },
     headerText2: {
@@ -147,7 +148,7 @@ const style = StyleSheet.create({
         paddingBottom: Constants.PADDING.XSMALL,
     },
     text: {
-        fontSize: Constants.SIZE.REGULAR,
+        fontSize: Constants.SIZE.X_SMALL,
         paddingLeft: 10,
         paddingRight: 10,
     },
