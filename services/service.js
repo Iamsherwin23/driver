@@ -418,4 +418,19 @@ export const setNewPassword = async (password, email) => {
 };
 
 
+//Reprt Page
+export const fetchCamera = async () => {
+    try {
+        const res = await fetch(apiRoutes.cameraIP, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        });
 
+        return await res.json();
+    } catch (err) {
+        console.log('Error fetching camera:', err);
+        return `Something went wrong fetching camera.`;
+    }
+};

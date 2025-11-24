@@ -34,6 +34,8 @@
         "ACCESS_FINE_LOCATION"
       ],
       "package": "com.sarcodev.trikeFare",
+      "usesCleartextTraffic": true,
+      "networkSecurityConfig": "network_security_config.xml",
       "config": {
         "googleMaps": {
           "apiKey": "AIzaSyD9pyFO6fpx_--KOUHD26p4ZeNKFrY3nM8"

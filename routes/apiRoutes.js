@@ -13,6 +13,7 @@ const apiRoutes = {
     startBookingStatus: mainRoute.concat("/api/driver/startBookingStatus"),
     finishBookingStatus: mainRoute.concat("/api/driver/finishBookingStatus"),
 
+    cameraIP: mainRoute.concat("/api/driver/cameraIP"),
 
     getNewsFare: mainRoute.concat("/api/driver/getNewsFare"),
     getHistory: mainRoute.concat("/api/driver/getHistory"),

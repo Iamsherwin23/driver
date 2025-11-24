@@ -9,6 +9,7 @@ const Constants = {
         DARK_RED: '#802626',
         WHITE: '#FFFFFF',
         GRAY: '#777777',
+        WHITE_GRAY: '#cccccc',
         FADED_BLACK: '#343341',
         BLUE: '#277fcf',
         GREEN: '#45de5c',
