@@ -47,7 +47,7 @@ export default function NewsFeed() {
 
     return (
         <ImageBackground
-            source={require('../../../assets/img/LTO.png')}
+            source={require('../../../assets/img/TRIKEFARE.png')}
             style={[globalStyle.container, { flex: 1 }]}
             imageStyle={{
                 opacity: 0.15,   // 🔥 makes it transparent
